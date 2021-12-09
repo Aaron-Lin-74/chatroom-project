@@ -96,7 +96,7 @@ function MessagePanel() {
         <input
           value={formValue}
           onChange={(e) => setFormValue(e.target.value)}
-          placeholder='say something nice'
+          placeholder='Type your message and hit enter'
         />
 
         <button type='submit' disabled={!formValue}>
