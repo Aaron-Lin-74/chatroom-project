@@ -32,7 +32,6 @@ function MessagePanel() {
       console.error('Error writing new message to Firebase Database', error)
     }
     setFormValue('')
-    // dummy.current.scrollIntoView({ behavior: 'smooth' })
   }
 
   // Triggered when a file is selected via the media picker.
@@ -100,11 +99,11 @@ function MessagePanel() {
     setShowEmojiPicker(false)
   }
   return (
-    <div>
+    <div className='message-panel'>
       {showEmojiPicker ? (
         <Picker set='google' native='true' onSelect={addEmoji} />
       ) : null}
-      <form className='message-panel' onSubmit={sendMessage}>
+      <form className='message-panel-form' onSubmit={sendMessage}>
         <input
           className='msg-input'
           value={formValue}

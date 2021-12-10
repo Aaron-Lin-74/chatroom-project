@@ -7,7 +7,7 @@ function UserInfo() {
     <div className='user-info' hidden={isHidden}>
       <img
         className='profilePhoto'
-        src={auth.currentUser.photoURL}
+        src={auth.currentUser.photoURL || '/images/default_profile.jpg'}
         referrerPolicy='no-referrer'
         alt='profile'
       />
