@@ -10,10 +10,13 @@ import {
   updateDoc,
   Timestamp,
   serverTimestamp,
+  onSnapshot,
 } from 'firebase/firestore'
 
 import {
   getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   signInWithPopup,
   signInWithRedirect,
   onAuthStateChanged,
@@ -80,6 +83,8 @@ function getUserName() {
 export {
   auth,
   db,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   signInWithGoogle,
   getProfilePicUrl,
   isUserSignedIn,
@@ -87,13 +92,15 @@ export {
   signOutUser,
   messagesRef,
   getMessageQuery,
+  onSnapshot,
 }
 
 // custome hook to get the current user
 export function useAuth() {
   const [currentUser, setCurrentUser] = useState(null)
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => setCurrentUser(user))
+    const unsubscribe = onAuthStateChanged(auth, (user) => setCurrentUser(user))
+    return unsubscribe
   }, [])
   return currentUser
 }

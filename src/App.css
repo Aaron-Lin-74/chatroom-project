@@ -40,6 +40,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   min-height: 100vh;
   background-color: #fff;
   position: relative;
@@ -48,13 +49,74 @@ body {
 main {
   padding: 10px 0;
   height: 80vh;
-  margin: 10vh 0 10vh;
   overflow-y: auto;
   /* overflow-x: hidden; */
   display: flex;
   flex-direction: column;
+  width: 100%;
+}
+.signIn-container {
+  position: fixed;
+  top: 20vh;
+  width: 80%;
+  /* max-width: 500px; */
+  width: clamp(320px, 60%, 500px);
+  display: flex;
+  flex-direction: column;
+  background-color: #3988cb;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 10px 20px;
+  border-radius: 10px;
+  align-items: center;
+  padding-top: 5vh;
+}
+.error-container {
+  position: fixed;
+  top: 20vh;
+  height: 5vh;
+  background-color: rgb(230, 107, 107);
+  width: 80%;
+  max-width: 500px;
+  z-index: 1;
+  border-radius: 10px 10px 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1rem;
+}
+.signIn-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 450px;
+  justify-content: center;
+  align-items: center;
 }
 
+.signIn-form label {
+  font-size: 1.25rem;
+
+  color: #fff;
+  text-align: left;
+}
+
+.signIn-form input {
+  line-height: 1.5;
+  width: clamp(200px, 380px, 80%);
+  font-size: 1.5rem;
+  background: #fff;
+  outline: none;
+  border: none;
+  margin: 10px auto;
+  padding: 10px;
+}
+
+.signIn-form p {
+  font-size: 1rem;
+  color: #fff;
+  margin: 10px 39px;
+}
 .message-panel {
   height: 10vh;
   position: fixed;
@@ -63,8 +125,12 @@ main {
   width: 100%;
   max-width: 728px;
   min-width: 320px;
-  display: flex;
+
   font-size: 1.5rem;
+}
+.message-panel-form {
+  display: flex;
+  height: 10vh;
 }
 
 .message-panel .chat-btns {
@@ -101,22 +167,26 @@ main {
   cursor: not-allowed;
 }
 
+.sign-up,
 .sign-in {
   color: #fff;
-  background: #3988cb;
-  max-width: 400px;
-  margin: 0 auto;
+  background: #128a26;
+  width: clamp(200px, 400px, 80%);
+  margin: 10px auto;
   border-radius: 5px;
 }
 
+.toggle-link {
+  cursor: pointer;
+  color: #d4f8da;
+  font-size: 1.25rem;
+  padding: 0 2px;
+  border: 1px solid #fff;
+  border-radius: 25px;
+}
 .sign-out {
   background-color: #3988cb;
 }
-/* ul,
-li {
-  text-align: left;
-  list-style: none;
-} */
 
 #mediaCapture {
   display: none;
@@ -265,10 +335,15 @@ p.messageText {
     font-size: 1rem;
   }
   .chat-btns {
-    padding: 1px;
+    padding: 5px;
   }
-  .message-panel {
-    height: 5vh;
+  .signIn-form input {
+    font-size: 1rem;
+  }
+  .signIn-form p {
+    font-size: 1rem;
+    padding: 5px 5px;
+    margin: 0 5px;
   }
   .message-panel input {
     font-size: 1rem;
@@ -285,8 +360,20 @@ p.messageText {
   .App .chat-btns {
     font-size: 0.75rem;
   }
-  .chat-btns {
-    padding: 0;
+  .signIn-form input {
+    font-size: 0.8rem;
+    padding: 2px;
+  }
+  .signIn-form p {
+    font-size: 0.8rem;
+    padding: 5px 5px;
+    margin: 0 5px;
+  }
+  .signIn-form label {
+    font-size: 0.8rem;
+  }
+  .signIn-form a {
+    font-size: 0.8rem;
   }
   .message-panel input {
     font-size: 0.8rem;

@@ -63,7 +63,7 @@ function ChatMessage(props) {
       <div className={`message ${messageClass}`}>
         <img
           className='profilePhoto'
-          src={photoURL}
+          src={photoURL || '/images/default_profile.jpg'}
           referrerPolicy='noreferrer'
           alt='profile'
         />
