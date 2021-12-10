@@ -15,6 +15,8 @@ import {
 
 import {
   getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   signInWithPopup,
   signInWithRedirect,
   onAuthStateChanged,
@@ -81,6 +83,8 @@ function getUserName() {
 export {
   auth,
   db,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   signInWithGoogle,
   getProfilePicUrl,
   isUserSignedIn,
