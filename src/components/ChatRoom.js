@@ -1,15 +1,21 @@
-import React, { useRef } from 'react'
-import { getMessageQuery } from '../firebase'
+import React, { useState, useEffect, useRef } from 'react'
+import { getMessageQuery, onSnapshot } from '../firebase'
 import MessagePanel from './MessagePanel'
 import ChatMessage from './ChatMessage'
-import { useCollectionData } from 'react-firebase-hooks/firestore'
 
 function ChatRoom() {
+  const [messages, setMessages] = useState([])
+
   const dummy = useRef()
+  // Create the query to load the last 25 messages and listen for new ones.
+  const query = getMessageQuery()
 
-  const q = getMessageQuery()
-  const [messages] = useCollectionData(q, { idField: 'id' })
-
+  // Start listening to the query.
+  useEffect(() => {
+    onSnapshot(query, function (snapshot) {
+      setMessages(snapshot.docs.map((doc) => doc.data()))
+    })
+  }, [])
   return (
     <>
       <main>

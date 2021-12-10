@@ -10,6 +10,7 @@ import {
   updateDoc,
   Timestamp,
   serverTimestamp,
+  onSnapshot,
 } from 'firebase/firestore'
 
 import {
@@ -87,6 +88,7 @@ export {
   signOutUser,
   messagesRef,
   getMessageQuery,
+  onSnapshot,
 }
 
 // custome hook to get the current user
