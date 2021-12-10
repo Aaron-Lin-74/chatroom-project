@@ -6,7 +6,7 @@ import ChatMessage from './ChatMessage'
 function ChatRoom() {
   const [messages, setMessages] = useState([])
 
-  const dummy = useRef()
+  const chatBottom = useRef()
   // Create the query to load the last 25 messages and listen for new ones.
   const query = getMessageQuery()
 
@@ -14,6 +14,7 @@ function ChatRoom() {
   useEffect(() => {
     onSnapshot(query, function (snapshot) {
       setMessages(snapshot.docs.map((doc) => doc.data()))
+      chatBottom.current.scrollIntoView({ behavior: 'smooth' })
     })
   }, [])
   return (
@@ -22,7 +23,7 @@ function ChatRoom() {
         {messages &&
           messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
 
-        <span ref={dummy}></span>
+        <span ref={chatBottom}></span>
       </main>
 
       <MessagePanel />
