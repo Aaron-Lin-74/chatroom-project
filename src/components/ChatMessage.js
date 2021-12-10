@@ -14,12 +14,22 @@ function ChatMessage(props) {
     const now = new Date()
     if (isSameDay(date, now)) {
       // If within the same minute, not showing the time stamp
-      if (date.getMinutes() === now.getMinutes()) return
-      return `${date.getHours()}:${date.getMinutes()}`
+      if (date.getMinutes() === now.getMinutes()) {
+        return
+      }
+      return formatTime(date.getHours(), date.getMinutes())
     }
-    return `${date.toDateString()} ${date.getHours()}:${date.getMinutes()}`
+    return `${date.toDateString()} ${formatTime(
+      date.getHours(),
+      date.getMinutes()
+    )}`
   }
 
+  const formatTime = (hour, minute) => {
+    return `${hour < 10 ? '0' + hour : hour}:${
+      minute < 10 ? '0' + minute : minute
+    }`
+  }
   // return true is two dates are of the same day
   const isSameDay = (date1, date2) => {
     if (

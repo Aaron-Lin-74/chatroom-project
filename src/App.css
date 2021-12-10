@@ -13,6 +13,7 @@ body {
 .App {
   text-align: center;
   max-width: 728px;
+  min-width: 320px;
   margin: 0 auto;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   border-radius: 15px;
@@ -35,12 +36,13 @@ body {
   box-sizing: border-box;
 }
 
-.App section {
+.chat-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   min-height: 100vh;
   background-color: #fff;
+  position: relative;
 }
 
 main {
@@ -53,35 +55,25 @@ main {
   flex-direction: column;
 }
 
-/* main::-webkit-scrollbar {
-  width: 0.25rem;
-}
-
-main::-webkit-scrollbar-track {
-  background: #1e1e24;
-}
-
-main::-webkit-scrollbar-thumb {
-  background: #6649b8;
-} */
-
-form {
+.message-panel {
   height: 10vh;
   position: fixed;
   bottom: 0;
   background-color: #3988cb;
   width: 100%;
   max-width: 728px;
+  min-width: 320px;
   display: flex;
   font-size: 1.5rem;
 }
 
-form button {
-  width: 20%;
-  background-color: rgb(56, 56, 143);
+.message-panel .chat-btns {
+  width: 15%;
+  background-color: #3988cb;
+  border-right: 1px solid white;
 }
 
-input {
+.msg-input {
   line-height: 1.5;
   width: 100%;
   font-size: 1.5rem;
@@ -92,8 +84,8 @@ input {
   padding: 0 10px;
 }
 
-button {
-  background-color: #282c34; /* Green */
+.chat-btns {
+  background-color: #3988cb;
   border: none;
   color: white;
   padding: 15px 32px;
@@ -104,7 +96,7 @@ button {
   font-size: 1.25rem;
 }
 
-button:disabled {
+.chat-btns:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -120,12 +112,36 @@ button:disabled {
 .sign-out {
   background-color: #3988cb;
 }
-ul,
+/* ul,
 li {
   text-align: left;
   list-style: none;
+} */
+
+#mediaCapture {
+  display: none;
 }
 
+#img-btn {
+  font-size: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#emoji-btn {
+  font-size: 2rem;
+  padding: 0 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emoji-mart {
+  position: absolute;
+  bottom: 10vh;
+  left: 10px;
+}
 p.messageText {
   max-width: 500px;
   margin-bottom: 12px;
@@ -215,8 +231,8 @@ p.messageText {
 /* The Close Button */
 .closeModal {
   position: absolute;
-  top: 15px;
-  right: 35px;
+  top: 10vh;
+  right: 7vw;
   color: #f1f1f1;
   font-size: 40px;
   font-weight: bold;
@@ -240,13 +256,39 @@ p.messageText {
   align-items: center;
 }
 
-#mediaCapture {
-  display: none;
+@media only screen and (max-width: 768px) {
+  .App header {
+    min-width: 320px;
+  }
+  .App h1,
+  .App .chat-btns {
+    font-size: 1rem;
+  }
+  .chat-btns {
+    padding: 1px;
+  }
+  .message-panel {
+    height: 5vh;
+  }
+  .message-panel input {
+    font-size: 1rem;
+  }
+  .emoji-mart {
+    position: absolute;
+    bottom: 5vh;
+    left: 0;
+  }
 }
 
-#submitImage {
-  font-size: 3rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+@media only screen and (max-width: 480px) {
+  .App h1,
+  .App .chat-btns {
+    font-size: 0.75rem;
+  }
+  .chat-btns {
+    padding: 0;
+  }
+  .message-panel input {
+    font-size: 0.8rem;
+  }
 }
