@@ -25,7 +25,9 @@ function App() {
         <SignOut />
       </header>
 
-      <section>{user ? <ChatRoom /> : <SignIn />}</section>
+      <section className='chat-container'>
+        {user ? <ChatRoom /> : <SignIn />}
+      </section>
     </div>
   )
 }

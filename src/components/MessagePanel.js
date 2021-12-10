@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { auth, messagesRef } from '../firebase'
 import { MdOutlinePhotoSizeSelectActual } from 'react-icons/md'
+import { BsEmojiSmile } from 'react-icons/bs'
+import 'emoji-mart/css/emoji-mart.css'
+import { Picker } from 'emoji-mart'
 import {
   getStorage,
   ref,
@@ -11,6 +14,7 @@ import { addDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
 
 function MessagePanel() {
   const [formValue, setFormValue] = useState('')
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
 
   const sendMessage = async (e) => {
     e.preventDefault()
@@ -90,16 +94,37 @@ function MessagePanel() {
       )
     }
   }
+
+  const addEmoji = (emoji) => {
+    setFormValue((formValue) => `${formValue}${emoji.native}`)
+    setShowEmojiPicker(false)
+  }
   return (
     <div>
-      <form onSubmit={sendMessage}>
+      {showEmojiPicker ? (
+        <Picker set='google' native='true' onSelect={addEmoji} />
+      ) : null}
+      <form className='message-panel' onSubmit={sendMessage}>
         <input
+          className='msg-input'
           value={formValue}
           onChange={(e) => setFormValue(e.target.value)}
           placeholder='Type your message and hit enter'
         />
-
-        <button type='submit' disabled={!formValue}>
+        <button
+          type='button'
+          id='emoji-btn'
+          className='chat-btns'
+          onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+        >
+          <BsEmojiSmile />
+        </button>
+        <button
+          id='send-btn'
+          className='chat-btns'
+          type='submit'
+          disabled={!formValue}
+        >
           SEND
         </button>
         <input
@@ -111,7 +136,8 @@ function MessagePanel() {
         />
         <button
           type='button'
-          id='submitImage'
+          id='img-btn'
+          className='chat-btns'
           title='Add an image'
           onClick={clickFileInput}
         >
