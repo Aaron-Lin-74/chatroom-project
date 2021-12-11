@@ -13,6 +13,7 @@ function UserInfo() {
   const user = auth.currentUser
   let isHidden = !user
   const profile = useRef(null)
+  const userNameRef = useRef('')
   const [photo, setPhoto] = useState(null)
   const [loading, setLoading] = useState(false)
   const [userName, setUserName] = useState(user.displayName)
@@ -34,6 +35,7 @@ function UserInfo() {
 
   const update = async () => {
     // Use the input's name attribute to get its value
+    const newUserName = userNameRef.current.value
     if (user !== null) {
       try {
         // show the loading image
@@ -57,6 +59,7 @@ function UserInfo() {
       } catch (err) {
         console.log(err)
       } finally {
+        setUserName(newUserName)
         setLoading(false)
       }
     }
@@ -95,8 +98,7 @@ function UserInfo() {
             id='displayName'
             name='displayName'
             type='text'
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
+            ref={userNameRef}
           />
           <label htmlFor='profile-Photo' id='profile-label'>
             New Profile Photo
