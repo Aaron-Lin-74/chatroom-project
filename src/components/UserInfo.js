@@ -50,16 +50,17 @@ function UserInfo() {
             displayName: userName,
             photoURL: publicImageUrl,
           })
+          setUserName(newUserName)
         } else {
           await updateProfile(user, {
             displayName: userName,
           })
+          setUserName(newUserName)
         }
         closeProfile()
       } catch (err) {
         console.log(err)
       } finally {
-        setUserName(newUserName)
         setLoading(false)
       }
     }
