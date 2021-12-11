@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { auth, signInWithEmailAndPassword, signInWithGoogle } from '../firebase'
-
+import { FcGoogle } from 'react-icons/fc'
 function SignIn({ toggleSignIn }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -46,6 +46,10 @@ function SignIn({ toggleSignIn }) {
           Sign In
         </button>
 
+        <button className='sign-in chat-btns' onClick={signInWithGoogle}>
+          <FcGoogle />
+          Sign in with Google
+        </button>
         <p>
           Do not have an account? You can{' '}
           <a className='toggle-link' onClick={toggleSignIn}>
@@ -53,11 +57,6 @@ function SignIn({ toggleSignIn }) {
           </a>{' '}
           with email & password, or use Google Account to sign in.
         </p>
-
-        <button className='sign-in chat-btns' onClick={signInWithGoogle}>
-          Sign in with Google
-        </button>
-        <p>Welcome to the Chat room, please don't use any abused words.</p>
       </form>
     </div>
   )

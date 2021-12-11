@@ -58,9 +58,7 @@ main {
 .signIn-container {
   position: fixed;
   top: 20vh;
-  width: 80%;
-  /* max-width: 500px; */
-  width: clamp(320px, 60%, 500px);
+  width: clamp(320px, 40%, 500px);
   display: flex;
   flex-direction: column;
   background-color: #3988cb;
@@ -76,7 +74,7 @@ main {
   top: 20vh;
   height: 5vh;
   background-color: rgb(230, 107, 107);
-  width: 80%;
+  width: 40%;
   max-width: 500px;
   z-index: 1;
   border-radius: 10px 10px 0 0;
@@ -95,7 +93,7 @@ main {
 }
 
 .signIn-form label {
-  font-size: 1.25rem;
+  font-size: 1rem;
 
   color: #fff;
   text-align: left;
@@ -103,8 +101,8 @@ main {
 
 .signIn-form input {
   line-height: 1.5;
-  width: clamp(200px, 380px, 80%);
-  font-size: 1.5rem;
+  width: clamp(200px, 300px, 80%);
+  font-size: 1rem;
   background: #fff;
   outline: none;
   border: none;
@@ -113,9 +111,8 @@ main {
 }
 
 .signIn-form p {
-  font-size: 1rem;
+  font-size: 14px;
   color: #fff;
-  margin: 10px 39px;
 }
 .message-panel {
   height: 10vh;
@@ -160,6 +157,7 @@ main {
   display: inline-block;
   cursor: pointer;
   font-size: 1.25rem;
+  border-radius: 12px;
 }
 
 .chat-btns:disabled {
@@ -167,15 +165,34 @@ main {
   cursor: not-allowed;
 }
 
+.chat-btns:hover {
+  color: rgba(41, 41, 41, 1);
+}
 .sign-up,
 .sign-in {
-  color: #fff;
+  /* color: #fff;
   background: #128a26;
   width: clamp(200px, 400px, 80%);
   margin: 10px auto;
-  border-radius: 5px;
+  border-radius: 5px; */
+  background: rgba(255, 255, 255, 1);
+  color: rgba(41, 41, 41, 1);
+  width: clamp(200px, 212px, 300px);
+  border-radius: 50px;
+  border: 1px solid rgb(168, 168, 168);
+  padding: 7px 16px 9px;
+  line-height: 20px;
+  font-weight: 400;
+  font-size: 1rem;
+  margin: 20px 10px 10px;
 }
 
+.sign-up svg,
+.sign-in svg {
+  margin-top: -2px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
 .toggle-link {
   cursor: pointer;
   color: #d4f8da;
@@ -250,6 +267,7 @@ p.messageText {
   height: 40px;
   border-radius: 50%;
   margin: 2px 5px;
+  cursor: pointer;
 }
 
 .messagePhoto {
@@ -261,7 +279,7 @@ p.messageText {
   cursor: pointer;
 }
 
-/* The Modal (background) */
+/* The photo Modal (background) */
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
@@ -314,6 +332,69 @@ p.messageText {
   color: #bbb;
   text-decoration: none;
   cursor: pointer;
+}
+
+/* user profile update modal */
+#update-profile-container {
+  display: none;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(55, 120, 183);
+  background-color: rgba(55, 120, 183, 0.9);
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding-top: 100px;
+}
+
+.update-profile-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 1rem;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.2);
+  height: 40%;
+  width: clamp(300px, 60%, 400px);
+  border: 1px solid #fff;
+  padding: 10px;
+  margin: 10px auto;
+}
+
+.update-profile-form svg {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 2rem;
+}
+
+/* hide the file type input, use label instead */
+input[type='file'] {
+  display: none;
+}
+
+#profile-label {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.loading-container {
+  background: #fff;
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  left: 50%;
 }
 
 .timeStamp {
