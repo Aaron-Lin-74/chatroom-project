@@ -13,16 +13,15 @@ import {
 import { addDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
 
 function MessagePanel() {
-  const [formValue, setFormValue] = useState('')
+  const [message, setMessage] = useState('')
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
 
   const sendMessage = async (e) => {
     e.preventDefault()
-
     const { uid, photoURL } = auth.currentUser
     try {
       await addDoc(messagesRef, {
-        text: formValue,
+        text: message,
         uid,
         // createdAt: Timestamp.now(),
         createdAt: serverTimestamp(),
@@ -31,21 +30,16 @@ function MessagePanel() {
     } catch (error) {
       console.error('Error writing new message to Firebase Database', error)
     }
-    setFormValue('')
+    setMessage('')
   }
 
   // Triggered when a file is selected via the media picker.
   function onMediaFileSelected(e) {
     e.preventDefault()
     const file = e.target.files[0]
-    console.log(file)
     // Check if the file is an image.
     if (!file.type.match('image.*')) {
-      var data = {
-        message: 'You can only share images',
-        timeout: 2000,
-      }
-
+      alert('You can only share images')
       return
     }
     // Check if the user is signed-in
@@ -95,7 +89,7 @@ function MessagePanel() {
   }
 
   const addEmoji = (emoji) => {
-    setFormValue((formValue) => `${formValue}${emoji.native}`)
+    setMessage((message) => `${message}${emoji.native}`)
     setShowEmojiPicker(false)
   }
   return (
@@ -106,8 +100,8 @@ function MessagePanel() {
       <form className='message-panel-form' onSubmit={sendMessage}>
         <input
           className='msg-input'
-          value={formValue}
-          onChange={(e) => setFormValue(e.target.value)}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
           placeholder='Type your message and hit enter'
         />
         <button
@@ -122,7 +116,7 @@ function MessagePanel() {
           id='send-btn'
           className='chat-btns'
           type='submit'
-          disabled={!formValue}
+          disabled={!message}
         >
           SEND
         </button>
