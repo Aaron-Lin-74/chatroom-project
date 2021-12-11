@@ -22,6 +22,7 @@ import {
   onAuthStateChanged,
   GoogleAuthProvider,
   signOut,
+  updateProfile,
 } from 'firebase/auth'
 
 import {
@@ -47,7 +48,7 @@ const provider = new GoogleAuthProvider()
 const messagesRef = collection(db, 'messages')
 
 const getMessageQuery = () => {
-  const q = query(messagesRef, orderBy('createdAt'), limit(25))
+  const q = query(messagesRef, orderBy('createdAt'), limit(50))
   return q
 }
 
@@ -93,6 +94,7 @@ export {
   messagesRef,
   getMessageQuery,
   onSnapshot,
+  updateProfile,
 }
 
 // custome hook to get the current user
