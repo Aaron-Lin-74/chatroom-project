@@ -428,10 +428,14 @@ input[type='file'] {
 #profile-label {
   border: 1px solid #ccc;
   display: inline-block;
-  padding: 6px 12px;
+  padding: 15px 32px;
   cursor: pointer;
+  width: 200px;
 }
 
+#profile-label:hover {
+  background-color: rgb(164, 238, 174);
+}
 .loading-container {
   background: #fff;
   height: 35px;
@@ -444,6 +448,20 @@ input[type='file'] {
   left: 50%;
 }
 
+.update-profile-form input {
+  line-height: 1.5;
+  width: 200px;
+  font-size: 1rem;
+  background: #fff;
+  outline: none;
+  border: none;
+  margin: 10px auto;
+  padding: 10px;
+}
+
+.update-profile-form button {
+  width: 200px;
+}
 .timeStamp {
   text-align: center;
   font-size: 0.7rem;
