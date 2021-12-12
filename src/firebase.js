@@ -6,10 +6,9 @@ import {
   collection,
   orderBy,
   limit,
-  addDoc,
+  getDocs,
+  where,
   updateDoc,
-  Timestamp,
-  serverTimestamp,
   onSnapshot,
 } from 'firebase/firestore'
 
@@ -18,19 +17,11 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
-  signInWithRedirect,
   onAuthStateChanged,
   GoogleAuthProvider,
   signOut,
   updateProfile,
 } from 'firebase/auth'
-
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from 'firebase/storage'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDJBHpBTyk0rq2_j3-9Yywg-x9_wvUQNnQ',
@@ -81,6 +72,28 @@ function getUserName() {
   return auth.currentUser.displayName
 }
 
+// Returns all the messages sent by the signed-in user
+async function getMessagesAndUpdatePhoto(uid, url) {
+  try {
+    const q = query(messagesRef, where('uid', '==', uid))
+    const querySnapshot = await getDocs(q)
+    // could not await in side the forEach loop, use map instead
+    // querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    // updateDoc(doc.ref, {
+    //   photoURL,
+    // })
+    // })
+    await Promise.all(
+      querySnapshot.docs.map(async (doc) => {
+        await updateDoc(doc.ref, { photoURL: url })
+      })
+    )
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 export {
   auth,
   db,
@@ -95,6 +108,7 @@ export {
   getMessageQuery,
   onSnapshot,
   updateProfile,
+  getMessagesAndUpdatePhoto,
 }
 
 // custome hook to get the current user
