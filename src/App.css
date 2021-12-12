@@ -58,7 +58,7 @@ main {
 .signIn-container {
   position: fixed;
   top: 20vh;
-  width: clamp(320px, 40%, 500px);
+  width: clamp(320px, 40%, 400px);
   display: flex;
   flex-direction: column;
   background-color: #3988cb;
@@ -74,7 +74,7 @@ main {
   top: 20vh;
   height: 5vh;
   background-color: rgb(230, 107, 107);
-  width: clamp(320px, 40%, 500px);
+  width: clamp(320px, 40%, 400px);
   max-width: 500px;
   z-index: 1;
   border-radius: 10px 10px 0 0;
@@ -111,7 +111,8 @@ main {
   padding: 10px;
 }
 
-.signIn-form p {
+.signIn-container p {
+  width: clamp(200px, 212px, 300px);
   font-size: 14px;
   color: #fff;
 }
@@ -188,12 +189,20 @@ main {
   margin: 20px 10px 10px;
 }
 
+.sign-in:hover,
+.sign-up:hover {
+  transform: scale(1.1);
+  transition: all 0.2s ease-in;
+  background-color: rgb(164, 238, 174);
+}
+
 .sign-up svg,
 .sign-in svg {
   margin-top: -2px;
   margin-right: 8px;
   vertical-align: middle;
 }
+
 .toggle-link {
   cursor: pointer;
   color: #d4f8da;
@@ -202,10 +211,16 @@ main {
   border: 1px solid #fff;
   border-radius: 25px;
 }
+.toggle-link:hover {
+  background-color: rgb(164, 238, 174);
+  color: rgba(0, 0, 0, 0.9);
+}
 .sign-out {
   background-color: #3988cb;
 }
-
+.sign-out:hover {
+  color: rgb(240, 116, 116);
+}
 #mediaCapture {
   display: none;
 }
@@ -453,7 +468,7 @@ input[type='file'] {
   .signIn-form input {
     font-size: 1rem;
   }
-  .signIn-form p {
+  .signIn-container p {
     font-size: 1rem;
     padding: 5px 5px;
     margin: 0 5px;
@@ -477,7 +492,7 @@ input[type='file'] {
     font-size: 0.8rem;
     padding: 2px;
   }
-  .signIn-form p {
+  .signIn-container p {
     font-size: 0.8rem;
     padding: 5px 5px;
     margin: 0 5px;

@@ -45,19 +45,18 @@ function SignIn({ toggleSignIn }) {
         <button type='submit' className='chat-btns sign-in'>
           Sign In
         </button>
-
-        <button className='sign-in chat-btns' onClick={signInWithGoogle}>
-          <FcGoogle />
-          Sign in with Google
-        </button>
-        <p>
-          Do not have an account? You can{' '}
-          <span className='toggle-link' onClick={toggleSignIn}>
-            sign up
-          </span>{' '}
-          with email & password, or use Google Account to sign in.
-        </p>
       </form>
+      <button className='sign-in chat-btns' onClick={signInWithGoogle}>
+        <FcGoogle />
+        Sign in with Google
+      </button>
+      <p className='sign-in-text'>
+        Do not have an account? You can{' '}
+        <span className='toggle-link' onClick={toggleSignIn}>
+          sign up
+        </span>{' '}
+        with email & password, or use Google Account to sign in.
+      </p>
     </div>
   )
 }

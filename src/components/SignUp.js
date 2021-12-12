@@ -66,23 +66,22 @@ function SignUp({ toggleSignIn }) {
         <button type='submit' className='chat-btns sign-up'>
           Sign Up
         </button>
-
-        <button
-          type='button'
-          className='sign-in chat-btns'
-          onClick={signInWithGoogle}
-        >
-          <FcGoogle />
-          Sign up with Google
-        </button>
-        <p>
-          Already have an account? You can{' '}
-          <span className='toggle-link' onClick={toggleSignIn}>
-            sign in
-          </span>{' '}
-          with email & password, or use Google Account to sign in.
-        </p>
       </form>
+      <button
+        type='button'
+        className='sign-in chat-btns'
+        onClick={signInWithGoogle}
+      >
+        <FcGoogle />
+        Sign up with Google
+      </button>
+      <p>
+        Already have an account? You can{' '}
+        <span className='toggle-link' onClick={toggleSignIn}>
+          sign in
+        </span>{' '}
+        with email & password, or use Google Account to sign in.
+      </p>
     </div>
   )
 }
