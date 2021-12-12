@@ -74,7 +74,7 @@ main {
   top: 20vh;
   height: 5vh;
   background-color: rgb(230, 107, 107);
-  width: 40%;
+  width: clamp(320px, 40%, 500px);
   max-width: 500px;
   z-index: 1;
   border-radius: 10px 10px 0 0;
@@ -82,7 +82,8 @@ main {
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: 1rem;
+  font-size: 0.8rem;
+  padding: 10px 12px;
 }
 .signIn-form {
   display: flex;
@@ -196,7 +197,7 @@ main {
 .toggle-link {
   cursor: pointer;
   color: #d4f8da;
-  font-size: 1.25rem;
+  font-size: 1rem;
   padding: 0 2px;
   border: 1px solid #fff;
   border-radius: 25px;
