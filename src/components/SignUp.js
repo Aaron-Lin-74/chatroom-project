@@ -27,7 +27,7 @@ function SignUp({ toggleSignIn }) {
 
       await createUserWithEmailAndPassword(auth, email, password)
     } catch (err) {
-      console.log(err)
+      console.error(err)
       setError(err.message)
     } finally {
       setTimeout(() => setError(''), 3000)

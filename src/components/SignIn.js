@@ -14,7 +14,7 @@ function SignIn({ toggleSignIn }) {
         const user = userCredential.user
       })
       .catch((err) => {
-        console.log(err)
+        console.error(err)
         setError(err.message)
         setTimeout(() => setError(''), 3000)
       })

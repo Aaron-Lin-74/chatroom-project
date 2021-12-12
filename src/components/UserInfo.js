@@ -60,7 +60,7 @@ function UserInfo() {
         }
         closeProfile()
       } catch (err) {
-        console.log(err)
+        console.error(err)
       } finally {
         setPhoto(null)
         setLoading(false)
