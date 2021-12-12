@@ -118,6 +118,7 @@ main {
 }
 .message-panel {
   height: 10vh;
+  min-height: 50px;
   position: fixed;
   bottom: 0;
   background-color: #3988cb;
@@ -130,6 +131,7 @@ main {
 .message-panel-form {
   display: flex;
   height: 10vh;
+  min-height: 50px;
 }
 
 .message-panel .chat-btns {
@@ -406,6 +408,7 @@ p.messageText {
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.2);
   height: 40%;
+  min-height: 300px;
   width: clamp(300px, 60%, 400px);
   border: 1px solid #fff;
   padding: 10px;
@@ -499,6 +502,10 @@ input[type='file'] {
     bottom: 5vh;
     left: 0;
   }
+  p.messageText {
+    max-width: 280px;
+    line-height: 18px;
+  }
 }
 
 @media only screen and (max-width: 480px) {
@@ -519,9 +526,6 @@ input[type='file'] {
     font-size: 0.8rem;
   }
   .signIn-form a {
-    font-size: 0.8rem;
-  }
-  .message-panel input {
     font-size: 0.8rem;
   }
 }
