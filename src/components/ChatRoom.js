@@ -13,12 +13,47 @@ function ChatRoom() {
   useEffect(() => {
     const chatBox = document.getElementById('chatBox')
     const unsubscribe = onSnapshot(query, function (snapshot) {
-      setMessages(snapshot.docs.map((doc) => doc.data()))
+      setMessages(
+        snapshot.docs.map((doc) => {
+          return {
+            ...doc.data(),
+            createdAt: displayTime(doc.data().createdAt.toDate()),
+          }
+        })
+      )
       chatBox.scrollTop = chatBox.scrollHeight
     })
     return unsubscribe
   }, [])
 
+  const displayTime = (date) => {
+    // If in the same day, just show the hour:min, otherwise show the date and time
+    const now = new Date()
+    if (isSameDay(date, now)) {
+      return formatTime(date.getHours(), date.getMinutes())
+    }
+    return `${date.toDateString()} ${formatTime(
+      date.getHours(),
+      date.getMinutes()
+    )}`
+  }
+
+  const formatTime = (hour, minute) => {
+    return `${hour < 10 ? '0' + hour : hour}:${
+      minute < 10 ? '0' + minute : minute
+    }`
+  }
+  // return true is two dates are of the same day
+  const isSameDay = (date1, date2) => {
+    if (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    ) {
+      return true
+    }
+    return false
+  }
   return (
     <>
       <main id='chatBox'>

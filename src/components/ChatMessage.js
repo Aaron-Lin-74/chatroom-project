@@ -9,35 +9,6 @@ function ChatMessage(props) {
   // set current user's message class to sent to distinguish from others
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received'
 
-  const displayTime = (date) => {
-    // If in the same day, just show the hour:min, otherwise show the date and time
-    const now = new Date()
-    if (isSameDay(date, now)) {
-      return formatTime(date.getHours(), date.getMinutes())
-    }
-    return `${date.toDateString()} ${formatTime(
-      date.getHours(),
-      date.getMinutes()
-    )}`
-  }
-
-  const formatTime = (hour, minute) => {
-    return `${hour < 10 ? '0' + hour : hour}:${
-      minute < 10 ? '0' + minute : minute
-    }`
-  }
-  // return true is two dates are of the same day
-  const isSameDay = (date1, date2) => {
-    if (
-      date1.getFullYear() === date2.getFullYear() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getDate() === date2.getDate()
-    ) {
-      return true
-    }
-    return false
-  }
-
   const showModal = () => {
     // Get the image and insert it inside the modal
     myModal.current.style.display = 'block'
@@ -52,9 +23,7 @@ function ChatMessage(props) {
   return (
     <>
       <div className='timeStamp'>
-        <p className='messageTime'>
-          {createdAt && displayTime(createdAt.toDate())}
-        </p>
+        <p className='messageTime'>{createdAt}</p>
       </div>
       <div className={`message ${messageClass}`}>
         <img

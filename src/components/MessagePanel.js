@@ -10,7 +10,12 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from 'firebase/storage'
-import { addDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
+import {
+  addDoc,
+  updateDoc,
+  serverTimestamp,
+  Timestamp,
+} from 'firebase/firestore'
 
 function MessagePanel() {
   const [message, setMessage] = useState('')
@@ -23,14 +28,16 @@ function MessagePanel() {
       await addDoc(messagesRef, {
         text: message,
         uid,
-        // createdAt: Timestamp.now(),
-        createdAt: serverTimestamp(),
+        createdAt: Timestamp.now(),
+        // * serverTimestamp has the delay, Timestamp.now() is a better choice
+        // createdAt: serverTimestamp(),
         photoURL,
       })
     } catch (error) {
       console.error('Error writing new message to Firebase Database', error)
+    } finally {
+      setMessage('')
     }
-    setMessage('')
   }
 
   // Triggered when a file is selected via the media picker.
@@ -112,14 +119,7 @@ function MessagePanel() {
         >
           <BsEmojiSmile />
         </button>
-        <button
-          id='send-btn'
-          className='chat-btns'
-          type='submit'
-          disabled={!message}
-        >
-          SEND
-        </button>
+
         <input
           id='mediaCapture'
           type='file'
@@ -135,6 +135,14 @@ function MessagePanel() {
           onClick={clickFileInput}
         >
           <MdOutlinePhotoSizeSelectActual />
+        </button>
+        <button
+          id='send-btn'
+          className='chat-btns'
+          type='submit'
+          disabled={!message}
+        >
+          SEND
         </button>
       </form>
     </div>
