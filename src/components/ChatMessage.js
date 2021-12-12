@@ -13,10 +13,6 @@ function ChatMessage(props) {
     // If in the same day, just show the hour:min, otherwise show the date and time
     const now = new Date()
     if (isSameDay(date, now)) {
-      // If within the same minute, not showing the time stamp
-      if (date.getMinutes() === now.getMinutes()) {
-        return
-      }
       return formatTime(date.getHours(), date.getMinutes())
     }
     return `${date.toDateString()} ${formatTime(

@@ -12,10 +12,11 @@ function ChatRoom() {
   // Start listening to the query.
   useEffect(() => {
     const chatBox = document.getElementById('chatBox')
-    onSnapshot(query, function (snapshot) {
+    const unsubscribe = onSnapshot(query, function (snapshot) {
       setMessages(snapshot.docs.map((doc) => doc.data()))
       chatBox.scrollTop = chatBox.scrollHeight
     })
+    return unsubscribe
   }, [])
 
   return (
