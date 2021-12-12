@@ -1,7 +1,6 @@
 import './App.css'
-import React, { useState, useEffect } from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth'
-import { auth, useAuth } from './firebase'
+import React, { useState } from 'react'
+import { useAuth } from './firebase'
 
 import UserInfo from './components/UserInfo'
 import SignIn from './components/SignIn'
@@ -21,7 +20,6 @@ function App() {
       <header>
         <h1>💬Chat Room</h1>
         {user && <UserInfo />}
-        {console.log(user)}
         <SignOut />
       </header>
 

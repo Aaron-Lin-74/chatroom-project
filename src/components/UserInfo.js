@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { auth, updateProfile } from '../firebase'
+import { auth, updateProfile, getMessagesAndUpdatePhoto } from '../firebase'
 import { FaTimes } from 'react-icons/fa'
 
 import {
@@ -13,10 +13,10 @@ function UserInfo() {
   const user = auth.currentUser
   let isHidden = !user
   const profile = useRef(null)
-  const userNameRef = useRef('')
   const [photo, setPhoto] = useState(null)
   const [loading, setLoading] = useState(false)
   const [userName, setUserName] = useState(user.displayName)
+  const [userNameForm, setUserNameForm] = useState(user.displayName)
 
   // Triggered when a image is selected via the media picker.
   function onMediaFileSelected(e) {
@@ -35,7 +35,6 @@ function UserInfo() {
 
   const update = async () => {
     // Use the input's name attribute to get its value
-    const newUserName = userNameRef.current.value
     if (user !== null) {
       try {
         // show the loading image
@@ -50,17 +49,20 @@ function UserInfo() {
             displayName: userName,
             photoURL: publicImageUrl,
           })
-          setUserName(newUserName)
+          setUserName(userNameForm)
+          // also update all the previous message sent by current user
+          await getMessagesAndUpdatePhoto(user.uid, publicImageUrl)
         } else {
           await updateProfile(user, {
             displayName: userName,
           })
-          setUserName(newUserName)
+          setUserName(userNameForm)
         }
         closeProfile()
       } catch (err) {
         console.log(err)
       } finally {
+        setPhoto(null)
         setLoading(false)
       }
     }
@@ -89,7 +91,10 @@ function UserInfo() {
         <h2>Update your profile</h2>
         {loading && (
           <div className='loading-container'>
-            <img src='https://www.google.com/images/spin-32.gif?a' />
+            <img
+              src='https://www.google.com/images/spin-32.gif?a'
+              alt='loading'
+            />
           </div>
         )}
         <form className='update-profile-form'>
@@ -99,7 +104,8 @@ function UserInfo() {
             id='displayName'
             name='displayName'
             type='text'
-            ref={userNameRef}
+            value={userNameForm}
+            onChange={(e) => setUserNameForm(e.target.value)}
           />
           <label htmlFor='profile-Photo' id='profile-label'>
             New Profile Photo
