@@ -52,9 +52,9 @@ function SignIn({ toggleSignIn }) {
         </button>
         <p>
           Do not have an account? You can{' '}
-          <a className='toggle-link' onClick={toggleSignIn}>
+          <span className='toggle-link' onClick={toggleSignIn}>
             sign up
-          </a>{' '}
+          </span>{' '}
           with email & password, or use Google Account to sign in.
         </p>
       </form>

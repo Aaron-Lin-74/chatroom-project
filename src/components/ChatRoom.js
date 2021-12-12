@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { getMessageQuery, onSnapshot } from '../firebase'
 import MessagePanel from './MessagePanel'
 import ChatMessage from './ChatMessage'
