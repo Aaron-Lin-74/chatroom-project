@@ -11,7 +11,6 @@ function ChatRoom() {
 
   // Start listening to the query.
   useEffect(() => {
-    const chatBox = document.getElementById('chatBox')
     const unsubscribe = onSnapshot(query, function (snapshot) {
       setMessages(
         snapshot.docs.map((doc) => {
@@ -21,10 +20,17 @@ function ChatRoom() {
           }
         })
       )
-      chatBox.scrollTop = chatBox.scrollHeight
+
+      scrollDown()
     })
     return unsubscribe
   }, [])
+
+  // Scroll to the bottom of the chatbox
+  const scrollDown = () => {
+    const chatBox = document.getElementById('chatBox')
+    chatBox.scrollTop = chatBox.scrollHeight
+  }
 
   const displayTime = (date) => {
     // If in the same day, just show the hour:min, otherwise show the date and time
@@ -58,7 +64,9 @@ function ChatRoom() {
     <>
       <main id='chatBox'>
         {messages &&
-          messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
+          messages.map((msg) => (
+            <ChatMessage key={msg.id} message={msg} scrollDown={scrollDown} />
+          ))}
       </main>
 
       <MessagePanel />

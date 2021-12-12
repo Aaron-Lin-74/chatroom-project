@@ -3,6 +3,7 @@ import { useRef } from 'react'
 
 function ChatMessage(props) {
   const { text, uid, photoURL, imageUrl, createdAt } = props.message
+  const { scrollDown } = props
   const myModal = useRef(null)
   const imageModal = useRef(null)
 
@@ -42,6 +43,7 @@ function ChatMessage(props) {
               referrerPolicy='noreferrer'
               alt='messagePhoto'
               onClick={showModal}
+              onLoad={scrollDown}
             />
             <div className='modal' ref={myModal}>
               <span onClick={closeModal} className='closeModal'>

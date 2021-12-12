@@ -71,7 +71,7 @@ function MessagePanel() {
         uid,
         imageUrl: LOADING_IMAGE_URL,
         photoURL,
-        createdAt: serverTimestamp(),
+        createdAt: Timestamp.now(),
       })
 
       // 2 - Upload the image to Cloud Storage.
