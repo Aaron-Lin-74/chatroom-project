@@ -5,9 +5,36 @@ import ChatMessage from './ChatMessage'
 
 function ChatRoom() {
   const [messages, setMessages] = useState([])
+  const [messageNumber, setMessageNumber] = useState(25)
+
+  // Check the user has scroll to the top of the chat box
+  const checkScrollTop = (e) => {
+    if (e.target.scrollTop === 0) {
+      // Display the show more clickable
+      document.getElementById('show-more-message').style.display = 'block'
+    }
+  }
+
+  // When the user click show more, load 25 more old messages
+  const showMoreMessages = () => {
+    setMessageNumber((messageNumber) => (messageNumber += 25))
+    document.getElementById('show-more-message').style.display = 'none'
+  }
+
+  useEffect(() => {
+    // Check whether to load the extra messages
+    document
+      .getElementById('chatBox')
+      .addEventListener('scroll', checkScrollTop)
+    return () => {
+      document
+        .getElementById('chatBox')
+        .removeEventListener('scroll', checkScrollTop)
+    }
+  }, [])
 
   // Create the query to load the last n messages and listen for new ones.
-  const query = getMessageQuery(25)
+  const query = getMessageQuery(messageNumber)
 
   // Start listening to the query.
   useEffect(() => {
@@ -23,7 +50,7 @@ function ChatRoom() {
       scrollDown()
     })
     return unsubscribe
-  }, [])
+  }, [messageNumber])
 
   // Scroll to the bottom of the chatbox
   const scrollDown = () => {
@@ -62,6 +89,9 @@ function ChatRoom() {
   return (
     <>
       <main id='chatBox'>
+        <span id='show-more-message' onClick={showMoreMessages}>
+          _______ Show more ________
+        </span>
         {messages &&
           messages.map((msg) => (
             <ChatMessage key={msg.id} message={msg} scrollDown={scrollDown} />

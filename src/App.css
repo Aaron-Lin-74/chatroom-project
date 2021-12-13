@@ -116,6 +116,11 @@ main {
   font-size: 14px;
   color: #fff;
 }
+
+#show-more-message {
+  display: none;
+  font-size: 0.7rem;
+}
 .message-panel {
   height: 10vh;
   min-height: 50px;
