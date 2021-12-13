@@ -6,21 +6,20 @@ import ChatMessage from './ChatMessage'
 function ChatRoom() {
   const [messages, setMessages] = useState([])
 
-  // Create the query to load the last 25 messages and listen for new ones.
-  const query = getMessageQuery()
+  // Create the query to load the last n messages and listen for new ones.
+  const query = getMessageQuery(25)
 
   // Start listening to the query.
   useEffect(() => {
     const unsubscribe = onSnapshot(query, function (snapshot) {
-      setMessages(
-        snapshot.docs.map((doc) => {
-          return {
-            ...doc.data(),
-            createdAt: displayTime(doc.data().createdAt.toDate()),
-          }
-        })
-      )
-
+      const descMessages = snapshot.docs.map((doc) => {
+        return {
+          ...doc.data(),
+          createdAt: displayTime(doc.data().createdAt.toDate()),
+        }
+      })
+      // since the lastest n messages are in descend order, so we need to reverse
+      setMessages(descMessages.reverse())
       scrollDown()
     })
     return unsubscribe

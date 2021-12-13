@@ -38,8 +38,8 @@ const auth = getAuth()
 const provider = new GoogleAuthProvider()
 const messagesRef = collection(db, 'messages')
 
-const getMessageQuery = () => {
-  const q = query(messagesRef, orderBy('createdAt'), limit(50))
+const getMessageQuery = (n) => {
+  const q = query(messagesRef, orderBy('createdAt', 'desc'), limit(n))
   return q
 }
 
