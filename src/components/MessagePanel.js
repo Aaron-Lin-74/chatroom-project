@@ -24,6 +24,7 @@ function MessagePanel() {
   const sendMessage = async (e) => {
     e.preventDefault()
     const { uid, photoURL } = auth.currentUser
+    setMessage('')
     try {
       await addDoc(messagesRef, {
         text: message,
@@ -35,8 +36,6 @@ function MessagePanel() {
       })
     } catch (error) {
       console.error('Error writing new message to Firebase Database', error)
-    } finally {
-      setMessage('')
     }
   }
 
