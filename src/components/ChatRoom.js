@@ -51,15 +51,15 @@ function ChatRoom() {
     }
     const unsubscribe = onSnapshot(query, function (snapshot) {
       const descMessages = snapshot.docs.map((doc) => {
-        // Add createdAt property to the message data object
+        // Add createdAt, and unique id properties to the message data object
         return {
           ...doc.data(),
           createdAt: displayTime(doc.data().createdAt.toDate()),
+          id: doc.id,
         }
       })
       // since the lastest n messages are in descend order, so we need to reverse
       setMessages(descMessages.reverse())
-      console.log('in side effect')
       scrollDown()
     })
     return unsubscribe
@@ -90,24 +90,20 @@ function ChatRoom() {
     return false
   }
   return (
-    <>
-      <main id='chatBox'>
-        <span id='show-more-message' onClick={showMoreMessages}>
-          _______ Show more ________
-        </span>
+    <main id='chatBox'>
+      <span id='show-more-message' onClick={showMoreMessages}>
+        _______ Show more ________
+      </span>
+      <div className='message-box'>
         {messages &&
-          messages.map((msg) => (
-            <ChatMessage
-              key={msg.id}
-              message={msg}
-              id={msg.id}
-              scrollDown={scrollDown}
-            />
-          ))}
-      </main>
-
+          messages.map((msg) => {
+            return (
+              <ChatMessage key={msg.id} message={msg} scrollDown={scrollDown} />
+            )
+          })}
+      </div>
       <MessagePanel />
-    </>
+    </main>
   )
 }
 export default ChatRoom
