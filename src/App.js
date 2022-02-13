@@ -7,6 +7,7 @@ import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
 import SignOut from './components/SignOut'
 import ChatRoom from './components/ChatRoom'
+import WeatherInfo from './components/WeatherInfo'
 
 function App() {
   // Used to toggle the sign in or sign up pages
@@ -18,7 +19,7 @@ function App() {
   return (
     <div className='App'>
       <header>
-        <h1>💬Chat Room</h1>
+        {user ? <WeatherInfo /> : <h1>💬Chat Room</h1>}
         {user && <UserInfo />}
         <SignOut />
       </header>
