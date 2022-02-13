@@ -10,12 +10,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from 'firebase/storage'
-import {
-  addDoc,
-  updateDoc,
-  serverTimestamp,
-  Timestamp,
-} from 'firebase/firestore'
+import { addDoc, updateDoc, Timestamp } from 'firebase/firestore'
 
 function MessagePanel() {
   const [message, setMessage] = useState('')

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { auth, signInWithEmailAndPassword, signInWithGoogle } from '../firebase'
 import { FcGoogle } from 'react-icons/fc'
+
 function SignIn({ toggleSignIn }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -8,16 +9,11 @@ function SignIn({ toggleSignIn }) {
 
   const signInWithEmail = (e) => {
     e.preventDefault()
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user
-      })
-      .catch((err) => {
-        console.error(err)
-        setError(err.message)
-        setTimeout(() => setError(''), 3000)
-      })
+    signInWithEmailAndPassword(auth, email, password).catch((err) => {
+      console.error(err)
+      setError(err.message)
+      setTimeout(() => setError(''), 3000)
+    })
   }
   return (
     <div className='signIn-container'>
