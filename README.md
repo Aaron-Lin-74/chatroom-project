@@ -1,6 +1,8 @@
-# Getting Started with Create React App
+# This project is a public chat room using React as the front end and Firebase as the backend. 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Firebase Authentication is used for user email password login as well as using google account login.
+Firebase Firestore Database is used for storing the chat messages.
+Firebase Stroage is used to storage the image message and generate the public url to be stored in Firestore.
 
 ## Available Scripts
 
