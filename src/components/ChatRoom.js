@@ -22,7 +22,7 @@ function ChatRoom() {
   }
 
   useEffect(() => {
-    // Check whether to load the extra messages
+    // Check whether to load the extra messages when scroll to top
     document
       .getElementById('chatBox')
       .addEventListener('scroll', checkScrollTop)
@@ -33,13 +33,25 @@ function ChatRoom() {
     }
   }, [])
 
-  // Create the query to load the last n messages and listen for new ones.
-  const query = getMessageQuery(messageNumber)
-
   // Start listening to the query.
   useEffect(() => {
+    // Create the query to load the last n messages and listen for new ones.
+    const query = getMessageQuery(messageNumber)
+
+    // If in the same day, just show the hour:min, otherwise show the date and time
+    const displayTime = (date) => {
+      const now = new Date()
+      if (isSameDay(date, now)) {
+        return formatTime(date.getHours(), date.getMinutes())
+      }
+      return `${date.toDateString()} ${formatTime(
+        date.getHours(),
+        date.getMinutes()
+      )}`
+    }
     const unsubscribe = onSnapshot(query, function (snapshot) {
       const descMessages = snapshot.docs.map((doc) => {
+        // Add createdAt property to the message data object
         return {
           ...doc.data(),
           createdAt: displayTime(doc.data().createdAt.toDate()),
@@ -47,6 +59,7 @@ function ChatRoom() {
       })
       // since the lastest n messages are in descend order, so we need to reverse
       setMessages(descMessages.reverse())
+      console.log('in side effect')
       scrollDown()
     })
     return unsubscribe
@@ -58,23 +71,13 @@ function ChatRoom() {
     chatBox.scrollTop = chatBox.scrollHeight
   }
 
-  const displayTime = (date) => {
-    // If in the same day, just show the hour:min, otherwise show the date and time
-    const now = new Date()
-    if (isSameDay(date, now)) {
-      return formatTime(date.getHours(), date.getMinutes())
-    }
-    return `${date.toDateString()} ${formatTime(
-      date.getHours(),
-      date.getMinutes()
-    )}`
-  }
-
+  // Change the time format to '00:00'
   const formatTime = (hour, minute) => {
     return `${hour < 10 ? '0' + hour : hour}:${
       minute < 10 ? '0' + minute : minute
     }`
   }
+
   // return true is two dates are of the same day
   const isSameDay = (date1, date2) => {
     if (
@@ -94,7 +97,12 @@ function ChatRoom() {
         </span>
         {messages &&
           messages.map((msg) => (
-            <ChatMessage key={msg.id} message={msg} scrollDown={scrollDown} />
+            <ChatMessage
+              key={msg.id}
+              message={msg}
+              id={msg.id}
+              scrollDown={scrollDown}
+            />
           ))}
       </main>
 
