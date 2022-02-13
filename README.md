@@ -1,8 +1,12 @@
-# This project is a public chat room using React as the front end and Firebase as the backend. 
+# This project is a public chat room using React as the front end and Firebase as the backend.
 
+Logged in users could send texts, images, and emojis. The User profile image and display name could be modified.
 Firebase Authentication is used for user email password login as well as using google account login.
-Firebase Firestore Database is used for storing the chat messages.
-Firebase Stroage is used to storage the image message and generate the public url to be stored in Firestore.
+Firebase Firestore Database is used for storing chat messages.
+Firebase Storage is used to store the image message and generate the public URL to be stored in Firestore.
+Local weather data would be fetched via third-party API when the user gave permission to use the geolocation.
+The live project is hosted via Firebase, please find the link below:
+https://aaronlin-project-chatroom.web.app/
 
 ## Available Scripts
 
