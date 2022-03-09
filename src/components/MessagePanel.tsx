@@ -17,6 +17,7 @@ function MessagePanel() {
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  /** Add message as a document to the database. */
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     const { uid, photoURL } = auth.currentUser!;
@@ -35,8 +36,10 @@ function MessagePanel() {
     }
   };
 
-  // Triggered when a file is selected via the media picker.
-  function onMediaFileSelected(e: React.ChangeEvent<HTMLInputElement>) {
+  /** Get the image name when a local image is selected via the media picker.
+   *  Then save the image message.
+   */
+  function onMediaFileSelected(e: React.ChangeEvent<HTMLInputElement>): void {
     e.preventDefault();
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -52,8 +55,10 @@ function MessagePanel() {
     }
   }
 
-  const clickFileInput = () => {
-    // Since we hide the file input, we click the button to click it instead
+  /**
+   * Since we hide the file input, we click the button to trigger the input click instead.
+   */
+  const clickFileInput = (): void => {
     if (inputRef.current !== null) {
       inputRef.current.click();
     }
@@ -94,10 +99,6 @@ function MessagePanel() {
     }
   };
 
-  // const addEmoji = (emoji: ) => {
-
-  // };
-
   return (
     <div className='message-panel'>
       {showEmojiPicker ? (
@@ -115,12 +116,15 @@ function MessagePanel() {
           className='msg-input'
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          aria-label='Type message here'
           placeholder='Type your message and hit enter'
         />
         <button
           type='button'
           id='emoji-btn'
           className='chat-btns'
+          title='Add an emoji'
+          aria-label='Add emoji'
           onClick={() => setShowEmojiPicker(!showEmojiPicker)}
         >
           <BsEmojiSmile />
@@ -131,6 +135,7 @@ function MessagePanel() {
           ref={inputRef}
           type='file'
           accept='image/*'
+          aria-labelledby='img-btn'
           onChange={onMediaFileSelected}
         />
         <button

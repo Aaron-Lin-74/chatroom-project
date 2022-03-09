@@ -73,7 +73,10 @@ function getUserName() {
   return auth.currentUser?.displayName || 'User';
 }
 
-// Returns all the messages sent by the signed-in user
+/** Update all messages' profile image that were sent by this signed-in user.
+ * @param uid - User id
+ * @param url - The new profile image url
+ */
 async function getMessagesAndUpdatePhoto(uid: string, url: string) {
   try {
     const q = query(messagesRef, where('uid', '==', uid));
@@ -112,7 +115,7 @@ export {
   getMessagesAndUpdatePhoto,
 };
 
-// custome hook to get the current user
+/** custome hook to get the current user. */
 export function useAuth() {
   const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
   useEffect(() => {
