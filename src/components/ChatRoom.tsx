@@ -6,12 +6,12 @@ import { MessageType } from '../types/message';
 
 function ChatRoom() {
   const [messages, setMessages] = useState<MessageType[]>([]);
-  const [messageNumber, setMessageNumber] = useState(25);
+  const [messageNumber, setMessageNumber] = useState<number>(25);
   const spanRef = useRef<HTMLSpanElement>(null);
   const chatBoxRef = useRef<HTMLDivElement>(null);
 
-  // Check the user has scroll to the top of the chat box
-  const checkScrollTop = (e: Event) => {
+  /** If the user has scroll to the top of the chat box, then show the sapn of 'show more'.*/
+  const checkScrollTop = (e: Event): void => {
     const targetDiv = e.target as HTMLDivElement;
     if (targetDiv.scrollTop === 0) {
       // Display the show more clickable
@@ -21,8 +21,8 @@ function ChatRoom() {
     }
   };
 
-  // When the user click show more, load 25 more old messages
-  const showMoreMessages = () => {
+  /** Load 25 more old messages when the user click show more span, then set the span invisible*/
+  const showMoreMessages = (): void => {
     setMessageNumber((messageNumber) => (messageNumber += 25));
     if (spanRef.current !== null) {
       spanRef.current.style.display = 'none';
@@ -48,8 +48,8 @@ function ChatRoom() {
     // Create the query to load the last n messages and listen for new ones.
     const query = getMessageQuery(messageNumber);
 
-    // If in the same day, just show the hour:min, otherwise show the date and time
-    const displayTime = (date: Date) => {
+    /** If new message being sent in the same day, just show the hour:min, otherwise show the date and time. */
+    const displayTime = (date: Date): string => {
       const now = new Date();
       if (isSameDay(date, now)) {
         return formatTime(date.getHours(), date.getMinutes());
@@ -61,7 +61,7 @@ function ChatRoom() {
     };
     const unsubscribe = onSnapshot(query, function (snapshot) {
       const descMessages: MessageType[] = snapshot.docs.map((doc) => {
-        // Add createdAt, and unique id properties to the message data object
+        // Add createdAt, and unique id properties to the message data object.
         return {
           ...doc.data(),
           photoURL: doc.data().photoURL,
@@ -70,28 +70,33 @@ function ChatRoom() {
           id: doc.id,
         };
       });
-      // since the lastest n messages are in descend order, so we need to reverse
+      // Since the lastest n messages are in descend order, so we need to reverse.
       setMessages(descMessages.reverse());
       scrollDown();
     });
     return unsubscribe;
   }, [messageNumber]);
 
-  // Scroll to the bottom of the chatbox
-  const scrollDown = () => {
+  /** Scroll to the bottom of the chatbox.*/
+  const scrollDown = (): void => {
     if (chatBoxRef.current !== null) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
     }
   };
 
-  // Change the time format to '00:00'
+  /**
+   * Change the time format to '00:00'
+   * @param hour - The hour number
+   * @param minute - The minute number
+   * @returns The time in 00:00 format
+   */
   const formatTime = (hour: number, minute: number): string => {
     return `${hour < 10 ? '0' + hour : hour}:${
       minute < 10 ? '0' + minute : minute
     }`;
   };
 
-  // return true is two dates are of the same day
+  /** Check if two dates are of the same day*/
   const isSameDay = (date1: Date, date2: Date): boolean => {
     if (
       date1.getFullYear() === date2.getFullYear() &&

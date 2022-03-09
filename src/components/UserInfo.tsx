@@ -19,8 +19,8 @@ function UserInfo() {
   const [userName, setUserName] = useState<string>(displayName);
   const [userNameForm, setUserNameForm] = useState<string>(displayName);
 
-  // Triggered when a image is selected via the media picker.
-  function onMediaFileSelected(e: React.ChangeEvent<HTMLInputElement>) {
+  /** Set the profile photo to the selected image.*/
+  function onMediaFileSelected(e: React.ChangeEvent<HTMLInputElement>): void {
     e.preventDefault();
     if (e.target.files && e.target.files[0]) {
       const photo = e.target.files[0];
@@ -36,6 +36,9 @@ function UserInfo() {
     }
   }
 
+  /**
+   * Update the profile details, like displayName and photoURL.
+   */
   const update = async () => {
     // Use the input's name attribute to get its value
     if (user !== null) {
@@ -124,7 +127,12 @@ function UserInfo() {
             accept='image/*'
             onChange={onMediaFileSelected}
           />
-          <button className='chat-btns' type='button' onClick={update}>
+          <button
+            className='chat-btns'
+            type='button'
+            title='Update the profile'
+            onClick={update}
+          >
             Update
           </button>
         </form>

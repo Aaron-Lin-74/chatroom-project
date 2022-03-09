@@ -17,25 +17,28 @@ function ChatMessage(props: PropsType) {
   // set current user's message class to sent to distinguish from others
   const messageClass = uid === auth.currentUser?.uid ? 'sent' : 'received';
 
-  const showModal = () => {
+  /** Open the image modal, to show the clicked image */
+  const showModal = (): void => {
     // Get the image and insert it inside the modal
     myModal.current.style.display = 'block';
     imageModal.current.setAttribute('src', imageUrl!);
   };
 
-  // When the user clicks on <span> (x), close the modal
-  const closeModal = () => {
+  /** Close the modal when the user clicks on <span> (x)*/
+  const closeModal = (): void => {
     // Get the <span> element that closes the modal
     myModal.current.style.display = 'none';
     imageModal.current.setAttribute('src', '');
   };
 
-  const showProfilePhoto = () => {
+  /** Open the profile modal, to show the profile image */
+  const showProfilePhoto = (): void => {
     profileModal.current.style.display = 'block';
     profilePhoto.current.src = photoURL || '/images/default_profile.jpg';
   };
 
-  const closeProfileModal = () => {
+  /** Close the profile modal */
+  const closeProfileModal = (): void => {
     profileModal.current.style.display = 'none';
     profilePhoto.current.src = '';
   };

@@ -4,7 +4,7 @@ import { WeatherType } from '../types/weather';
 function WeatherInfo() {
   const [weatherData, setWeatherData] = useState<WeatherType>();
   useEffect(() => {
-    function getLocation() {
+    function getLocation(): void {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(fetchWeather, showError);
       } else {
@@ -15,8 +15,8 @@ function WeatherInfo() {
     getLocation();
   }, []);
 
-  // Fetch weather data from third-party API after getting the location info
-  function fetchWeather(position: GeolocationPosition) {
+  /** Fetch weather data from third-party API, and update the state */
+  function fetchWeather(position: GeolocationPosition): void {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
     fetch(`https://fcc-weather-api.glitch.me/api/current?lat=${lat}&lon=${lon}`)
@@ -27,7 +27,7 @@ function WeatherInfo() {
       .catch((err) => console.log(err));
   }
 
-  function showError(error: GeolocationPositionError) {
+  function showError(error: GeolocationPositionError): void {
     switch (error.code) {
       case error.PERMISSION_DENIED:
         console.log('User denied the request for Geolocation.');
