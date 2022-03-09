@@ -1,35 +1,38 @@
-import React, { useState, useRef } from 'react'
-import { auth, updateProfile, getMessagesAndUpdatePhoto } from '../firebase'
-import { FaTimes } from 'react-icons/fa'
+import React, { useState, useRef } from 'react';
+import { auth, updateProfile, getMessagesAndUpdatePhoto } from '../firebase';
+import { FaTimes } from 'react-icons/fa';
 
 import {
   getStorage,
   ref,
   uploadBytesResumable,
   getDownloadURL,
-} from 'firebase/storage'
+} from 'firebase/storage';
 
 function UserInfo() {
-  const user = auth.currentUser
-  let isHidden = !user
-  const profile = useRef(null)
-  const [photo, setPhoto] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [userName, setUserName] = useState(user.displayName)
-  const [userNameForm, setUserNameForm] = useState(user.displayName)
+  const user = auth.currentUser!;
+  let isHidden = !user;
+  const displayName: string = user.displayName!;
+  const profile = useRef<HTMLDivElement>(null);
+  const [photo, setPhoto] = useState<File | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [userName, setUserName] = useState<string>(displayName);
+  const [userNameForm, setUserNameForm] = useState<string>(displayName);
 
   // Triggered when a image is selected via the media picker.
-  function onMediaFileSelected(e) {
-    e.preventDefault()
-    const photo = e.target.files[0]
-    // Check if the file is an image.
-    if (!photo.type.match('image.*')) {
-      alert('You can only upload image for profile')
-      return
-    }
-    // Check if the user is signed-in
-    if (user !== null) {
-      setPhoto(photo)
+  function onMediaFileSelected(e: React.ChangeEvent<HTMLInputElement>) {
+    e.preventDefault();
+    if (e.target.files && e.target.files[0]) {
+      const photo = e.target.files[0];
+      // Check if the file is an image.
+      if (!photo.type.match('image.*')) {
+        alert('You can only upload image for profile');
+        return;
+      }
+      // Check if the user is signed-in
+      if (user !== null) {
+        setPhoto(photo);
+      }
     }
   }
 
@@ -38,50 +41,54 @@ function UserInfo() {
     if (user !== null) {
       try {
         // show the loading image
-        setLoading(true)
+        setLoading(true);
         if (photo !== null) {
           // upload the image to Cloud Storage and generate a public URL for photoURL
-          const photoPath = `${user.uid}/profile/${photo.name}`
-          const newImageRef = ref(getStorage(), photoPath)
-          await uploadBytesResumable(newImageRef, photo)
-          const publicImageUrl = await getDownloadURL(newImageRef)
+          const photoPath = `${user.uid}/profile/${photo.name}`;
+          const newImageRef = ref(getStorage(), photoPath);
+          await uploadBytesResumable(newImageRef, photo);
+          const publicImageUrl = await getDownloadURL(newImageRef);
           await updateProfile(user, {
             displayName: userName,
             photoURL: publicImageUrl,
-          })
-          setUserName(userNameForm)
+          });
+          setUserName(userNameForm);
           // also update all the previous message sent by current user
-          await getMessagesAndUpdatePhoto(user.uid, publicImageUrl)
+          await getMessagesAndUpdatePhoto(user.uid, publicImageUrl);
         } else {
           await updateProfile(user, {
             displayName: userName,
-          })
-          setUserName(userNameForm)
+          });
+          setUserName(userNameForm);
         }
-        closeProfile()
+        closeProfile();
       } catch (err) {
-        console.error(err)
+        console.error(err);
       } finally {
-        setPhoto(null)
-        setLoading(false)
+        setPhoto(null);
+        setLoading(false);
       }
     }
-    return false
-  }
+    return false;
+  };
 
   const showProfile = () => {
-    profile.current.style.display = 'block'
-  }
+    if (profile.current !== null) {
+      profile.current.style.display = 'block';
+    }
+  };
 
   const closeProfile = () => {
-    profile.current.style.display = 'none'
-  }
+    if (profile.current !== null) {
+      profile.current.style.display = 'none';
+    }
+  };
 
   return (
     <div className='user-info' hidden={isHidden}>
       <img
         className='profilePhoto'
-        src={user.photoURL || '/images/default_profile.jpg'}
+        src={user?.photoURL || '/images/default_profile.jpg'}
         referrerPolicy='no-referrer'
         alt='profile'
         onClick={showProfile}
@@ -123,7 +130,7 @@ function UserInfo() {
         </form>
       </div>
     </div>
-  )
+  );
 }
 
-export default UserInfo
+export default UserInfo;

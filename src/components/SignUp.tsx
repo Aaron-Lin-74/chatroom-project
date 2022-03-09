@@ -1,38 +1,41 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import {
   signInWithGoogle,
   auth,
   createUserWithEmailAndPassword,
-} from '../firebase'
-import { FcGoogle } from 'react-icons/fc'
+} from '../firebase';
+import { FcGoogle } from 'react-icons/fc';
 
-function SignUp({ toggleSignIn }) {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [password2, setPassword2] = useState('')
-  const [error, setError] = useState('')
+function SignUp({ toggleSignIn }: { toggleSignIn: () => void }) {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [password2, setPassword2] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
-  const signUpWithEmail = async (e) => {
-    e.preventDefault()
+  const signUpWithEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
       // validation
       if (password !== password2) {
-        setError('The passwords do not match!')
-        return
+        setError('The passwords do not match!');
+        return;
       }
       if (password.length < 6) {
-        setError('The password should be at least 6 characters')
-        return
+        setError('The password should be at least 6 characters');
+        return;
       }
 
-      await createUserWithEmailAndPassword(auth, email, password)
+      await createUserWithEmailAndPassword(auth, email, password);
     } catch (err) {
-      console.error(err)
-      setError(err.message)
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError(String(err));
+      }
     } finally {
-      setTimeout(() => setError(''), 3000)
+      setTimeout(() => setError(''), 3000);
     }
-  }
+  };
   return (
     <div className='signIn-container'>
       {error && (
@@ -83,7 +86,7 @@ function SignUp({ toggleSignIn }) {
         with email & password, or use Google Account to sign in.
       </p>
     </div>
-  )
+  );
 }
 
-export default SignUp
+export default SignUp;

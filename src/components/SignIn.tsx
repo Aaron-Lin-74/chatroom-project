@@ -1,20 +1,27 @@
-import React, { useState } from 'react'
-import { auth, signInWithEmailAndPassword, signInWithGoogle } from '../firebase'
-import { FcGoogle } from 'react-icons/fc'
+import React, { useState } from 'react';
+import {
+  auth,
+  signInWithEmailAndPassword,
+  signInWithGoogle,
+} from '../firebase';
+import { FcGoogle } from 'react-icons/fc';
 
-function SignIn({ toggleSignIn }) {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
+function SignIn({ toggleSignIn }: { toggleSignIn: () => void }) {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
-  const signInWithEmail = (e) => {
-    e.preventDefault()
+  const signInWithEmail = (e: React.FormEvent): void => {
+    e.preventDefault();
     signInWithEmailAndPassword(auth, email, password).catch((err) => {
-      console.error(err)
-      setError(err.message)
-      setTimeout(() => setError(''), 3000)
-    })
-  }
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError(String(err));
+      }
+      setTimeout(() => setError(''), 3000);
+    });
+  };
   return (
     <div className='signIn-container'>
       {error && (
@@ -54,7 +61,7 @@ function SignIn({ toggleSignIn }) {
         with email & password, or use Google Account to sign in.
       </p>
     </div>
-  )
+  );
 }
 
-export default SignIn
+export default SignIn;

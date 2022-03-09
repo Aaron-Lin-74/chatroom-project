@@ -1,39 +1,44 @@
-import { auth } from '../firebase'
-import { useRef } from 'react'
+import { auth } from '../firebase';
+import { useRef } from 'react';
+import { MessageType } from '../types/message';
 
-function ChatMessage(props) {
-  const { text, uid, photoURL, imageUrl, createdAt } = props.message
-  const { scrollDown } = props
-  const myModal = useRef(null)
-  const imageModal = useRef(null)
-  const profileModal = useRef(null)
-  const profilePhoto = useRef(null)
+interface PropsType {
+  message: MessageType;
+  scrollDown: () => void;
+}
+function ChatMessage(props: PropsType) {
+  const { text, uid, photoURL, imageUrl, createdAt } = props.message;
+  const { scrollDown } = props;
+  const myModal = useRef<HTMLDivElement>(null!);
+  const imageModal = useRef<HTMLImageElement>(null!);
+  const profileModal = useRef<HTMLDivElement>(null!);
+  const profilePhoto = useRef<HTMLImageElement>(null!);
 
   // set current user's message class to sent to distinguish from others
-  const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received'
+  const messageClass = uid === auth.currentUser?.uid ? 'sent' : 'received';
 
   const showModal = () => {
     // Get the image and insert it inside the modal
-    myModal.current.style.display = 'block'
-    imageModal.current.src = imageUrl
-  }
+    myModal.current.style.display = 'block';
+    imageModal.current.setAttribute('src', imageUrl!);
+  };
 
   // When the user clicks on <span> (x), close the modal
   const closeModal = () => {
     // Get the <span> element that closes the modal
-    myModal.current.style.display = 'none'
-    imageModal.current.src = null
-  }
+    myModal.current.style.display = 'none';
+    imageModal.current.setAttribute('src', '');
+  };
 
   const showProfilePhoto = () => {
-    profileModal.current.style.display = 'block'
-    profilePhoto.current.src = photoURL || '/images/default_profile.jpg'
-  }
+    profileModal.current.style.display = 'block';
+    profilePhoto.current.src = photoURL || '/images/default_profile.jpg';
+  };
 
   const closeProfileModal = () => {
-    profileModal.current.style.display = 'none'
-    profileModal.current.src = null
-  }
+    profileModal.current.style.display = 'none';
+    profilePhoto.current.src = '';
+  };
 
   return (
     <>
@@ -44,7 +49,7 @@ function ChatMessage(props) {
         <img
           className='profilePhoto'
           src={photoURL || '/images/default_profile.jpg'}
-          referrerPolicy='noreferrer'
+          referrerPolicy='no-referrer'
           alt='profile'
           onClick={showProfilePhoto}
         />
@@ -55,7 +60,7 @@ function ChatMessage(props) {
             </span>
             <img
               className='big-profile-Photo'
-              referrerPolicy='noreferrer'
+              referrerPolicy='no-referrer'
               alt='profile'
               ref={profilePhoto}
             />
@@ -68,7 +73,7 @@ function ChatMessage(props) {
             <img
               className='messagePhoto'
               src={imageUrl}
-              referrerPolicy='noreferrer'
+              referrerPolicy='no-referrer'
               alt='messagePhoto'
               onClick={showModal}
               onLoad={scrollDown}
@@ -79,7 +84,7 @@ function ChatMessage(props) {
               </span>
               <img
                 className='modal-photo'
-                referrerPolicy='noreferrer'
+                referrerPolicy='no-referrer'
                 alt='messagePhoto'
                 ref={imageModal}
               />
@@ -88,6 +93,6 @@ function ChatMessage(props) {
         )}
       </div>
     </>
-  )
+  );
 }
-export default ChatMessage
+export default ChatMessage;
