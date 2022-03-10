@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   signInWithGoogle,
   auth,
@@ -12,6 +12,15 @@ function SignUp({ toggleSignIn }: { toggleSignIn: () => void }) {
   const [password2, setPassword2] = useState<string>('');
   const [error, setError] = useState<string>('');
 
+  // If there exits error, disappear the error message in 3s.
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setError(''), 3000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [error]);
   const signUpWithEmail = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -32,15 +41,13 @@ function SignUp({ toggleSignIn }: { toggleSignIn: () => void }) {
       } else {
         setError(String(err));
       }
-    } finally {
-      setTimeout(() => setError(''), 3000);
     }
   };
   return (
     <div className='signIn-container'>
       {error && (
         <div className='error-container'>
-          <p>{error}</p>
+          <p role='alert'>{error}</p>
         </div>
       )}
       <form className='signIn-form' onSubmit={signUpWithEmail}>
@@ -49,6 +56,7 @@ function SignUp({ toggleSignIn }: { toggleSignIn: () => void }) {
           id='email'
           type='email'
           placeholder='example@example.com'
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
@@ -56,6 +64,7 @@ function SignUp({ toggleSignIn }: { toggleSignIn: () => void }) {
         <input
           id='password'
           type='password'
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
@@ -63,6 +72,7 @@ function SignUp({ toggleSignIn }: { toggleSignIn: () => void }) {
         <input
           id='password2'
           type='password'
+          value={password2}
           onChange={(e) => setPassword2(e.target.value)}
           required
         />
