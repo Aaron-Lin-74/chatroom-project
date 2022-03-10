@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test suites for SignOut component should match the snapshot 1`] = `
+<DocumentFragment>
+  <button
+    class="sign-out chat-btns"
+  >
+    SIGN-OUT
+  </button>
+</DocumentFragment>
+`;
