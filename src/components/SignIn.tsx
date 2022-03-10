@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   auth,
   signInWithEmailAndPassword,
@@ -11,6 +11,15 @@ function SignIn({ toggleSignIn }: { toggleSignIn: () => void }) {
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
 
+  // If there exits error, disappear the error message in 3s.
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setError(''), 3000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [error]);
   const signInWithEmail = (e: React.FormEvent): void => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password).catch((err) => {
@@ -19,14 +28,13 @@ function SignIn({ toggleSignIn }: { toggleSignIn: () => void }) {
       } else {
         setError(String(err));
       }
-      setTimeout(() => setError(''), 3000);
     });
   };
   return (
     <div className='signIn-container'>
       {error && (
         <div className='error-container'>
-          <p>{error}</p>
+          <p role='alert'>{error}</p>
         </div>
       )}
       <form className='signIn-form' onSubmit={signInWithEmail}>
@@ -35,6 +43,7 @@ function SignIn({ toggleSignIn }: { toggleSignIn: () => void }) {
           id='email'
           type='email'
           placeholder='example@example.com'
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
@@ -42,6 +51,7 @@ function SignIn({ toggleSignIn }: { toggleSignIn: () => void }) {
         <input
           id='password'
           type='password'
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
