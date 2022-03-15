@@ -20,9 +20,10 @@ function MessagePanel() {
   /** Add message as a document to the database. */
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { uid, photoURL } = auth.currentUser!;
-    setMessage('');
     try {
+      const { uid, photoURL } = auth.currentUser!;
+      setMessage('');
+
       await addDoc(messagesRef, {
         text: message,
         uid,
@@ -124,7 +125,7 @@ function MessagePanel() {
           id='emoji-btn'
           className='chat-btns'
           title='Add an emoji'
-          aria-label='Add emoji'
+          aria-label='Add an emoji'
           onClick={() => setShowEmojiPicker(!showEmojiPicker)}
         >
           <BsEmojiSmile />
@@ -137,6 +138,7 @@ function MessagePanel() {
           accept='image/*'
           aria-labelledby='img-btn'
           onChange={onMediaFileSelected}
+          data-testid='fileDropzone'
         />
         <button
           type='button'
@@ -144,6 +146,7 @@ function MessagePanel() {
           className='chat-btns'
           title='Add an image'
           onClick={clickFileInput}
+          aria-label='Add an image'
         >
           <MdOutlinePhotoSizeSelectActual />
         </button>

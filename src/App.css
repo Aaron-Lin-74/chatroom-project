@@ -346,7 +346,7 @@ p.messageText {
   cursor: pointer;
 }
 
-.messagePhoto {
+.photoMessage {
   max-width: 200px;
   max-height: 200px;
   border-radius: 5px;
@@ -355,8 +355,8 @@ p.messageText {
   cursor: pointer;
 }
 
-/* The photo Modal (background) */
-.modal {
+/* The photo message Modal (background) */
+.photoMessage-modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
