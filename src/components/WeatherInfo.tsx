@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { WeatherType } from '../types/weather';
 
 function WeatherInfo() {
-  const [weatherData, setWeatherData] = useState<WeatherType>();
+  const [weatherData, setWeatherData] = useState<WeatherType | null>(null);
   useEffect(() => {
-    function getLocation(): void {
+    function getLocationAndFetchWeather(): void {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(fetchWeather, showError);
       } else {
@@ -12,7 +12,7 @@ function WeatherInfo() {
       }
     }
 
-    getLocation();
+    getLocationAndFetchWeather();
   }, []);
 
   /** Fetch weather data from third-party API, and update the state */
