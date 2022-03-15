@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useState } from 'react';
-import { useAuth } from './firebase';
+import { useAuth, signOutUser } from './firebase';
 
 import UserInfo from './components/UserInfo';
 import SignIn from './components/SignIn';
@@ -21,7 +21,7 @@ function App() {
       <header>
         {user ? <WeatherInfo /> : <h1>💬Chat Room</h1>}
         {user && <UserInfo />}
-        <SignOut />
+        {user && <SignOut signOutUser={signOutUser} />}
       </header>
 
       <section className='chat-container'>
