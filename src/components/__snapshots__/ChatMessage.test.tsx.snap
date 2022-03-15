@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChatMessage component should match the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="timeStamp"
+  >
+    <p
+      class="messageTime"
+    >
+      2020-10-10
+    </p>
+  </div>
+  <div
+    class="message received"
+  >
+    <img
+      alt="profile"
+      class="profilePhoto"
+      referrerpolicy="no-referrer"
+      src="http://www.fakePhotoURL"
+    />
+    <div
+      class="profile-modal"
+      data-testid="profile-modal"
+    >
+      <div
+        class="profile-photo-container"
+      >
+        <span
+          class="close-profile-modal"
+        >
+          ×
+        </span>
+        <img
+          alt="profile-modal"
+          class="big-profile-Photo"
+          referrerpolicy="no-referrer"
+        />
+      </div>
+    </div>
+    <p
+      class="messageText"
+    >
+      Hello World
+    </p>
+  </div>
+</DocumentFragment>
+`;

@@ -56,7 +56,11 @@ function ChatMessage(props: PropsType) {
           alt='profile'
           onClick={showProfilePhoto}
         />
-        <div className='profile-modal' ref={profileModal}>
+        <div
+          className='profile-modal'
+          ref={profileModal}
+          data-testid='profile-modal'
+        >
           <div className='profile-photo-container'>
             <span onClick={closeProfileModal} className='close-profile-modal'>
               &times;
@@ -64,7 +68,7 @@ function ChatMessage(props: PropsType) {
             <img
               className='big-profile-Photo'
               referrerPolicy='no-referrer'
-              alt='profile'
+              alt='profile-modal'
               ref={profilePhoto}
             />
           </div>
@@ -74,21 +78,25 @@ function ChatMessage(props: PropsType) {
         ) : (
           <>
             <img
-              className='messagePhoto'
+              className='photoMessage'
               src={imageUrl}
               referrerPolicy='no-referrer'
-              alt='messagePhoto'
+              alt='photoMessage'
               onClick={showModal}
               onLoad={scrollDown}
             />
-            <div className='modal' ref={myModal}>
+            <div
+              className='photoMessage-modal'
+              ref={myModal}
+              data-testid='photoMessage-modal'
+            >
               <span onClick={closeModal} className='closeModal'>
                 &times;
               </span>
               <img
                 className='modal-photo'
                 referrerPolicy='no-referrer'
-                alt='messagePhoto'
+                alt='photoMessage-modal'
                 ref={imageModal}
               />
             </div>
