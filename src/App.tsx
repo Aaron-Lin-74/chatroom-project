@@ -8,6 +8,7 @@ import SignUp from './components/SignUp';
 import SignOut from './components/SignOut';
 import ChatRoom from './components/ChatRoom';
 import WeatherInfo from './components/WeatherInfo';
+import ErrorBoundary from './components/ErrorBoundary';
 
 function App() {
   // Used to toggle the sign in or sign up pages
@@ -18,21 +19,23 @@ function App() {
 
   return (
     <div className='App'>
-      <header>
-        {user ? <WeatherInfo /> : <h1>💬Chat Room</h1>}
-        {user && <UserInfo />}
-        {user && <SignOut signOutUser={signOutUser} />}
-      </header>
+      <ErrorBoundary>
+        <header>
+          {user ? <WeatherInfo /> : <h1>💬Chat Room</h1>}
+          {user && <UserInfo />}
+          {user && <SignOut signOutUser={signOutUser} />}
+        </header>
 
-      <section className='chat-container'>
-        {user ? (
-          <ChatRoom />
-        ) : signIn ? (
-          <SignIn toggleSignIn={() => setSignIn(!signIn)} />
-        ) : (
-          <SignUp toggleSignIn={() => setSignIn(!signIn)} />
-        )}
-      </section>
+        <section className='chat-container'>
+          {user ? (
+            <ChatRoom />
+          ) : signIn ? (
+            <SignIn toggleSignIn={() => setSignIn(!signIn)} />
+          ) : (
+            <SignUp toggleSignIn={() => setSignIn(!signIn)} />
+          )}
+        </section>
+      </ErrorBoundary>
     </div>
   );
 }
