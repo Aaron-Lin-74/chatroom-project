@@ -3,6 +3,17 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import ErrorBoundary from './ErrorBoundary';
 
+const errorObject = console.error;
+const logObject = console.log;
+beforeEach(() => {
+  console.error = jest.fn();
+  // console.log = jest.fn();
+});
+
+afterEach(() => {
+  console.error = errorObject;
+  console.log = logObject;
+});
 describe('Test suites for ErrorBoundary component', () => {
   const mockChildren = <h1>Mock children</h1>;
   function Bomb({ shouldThrow }: { shouldThrow: boolean }) {
@@ -27,10 +38,6 @@ describe('Test suites for ErrorBoundary component', () => {
   });
 
   test('should render the error page when a component error occurs', () => {
-    const errorObject = console.error;
-    const logObject = console.log;
-    console.error = jest.fn();
-    console.log = jest.fn();
     render(
       <ErrorBoundary>
         <Bomb shouldThrow={true} />
@@ -38,7 +45,21 @@ describe('Test suites for ErrorBoundary component', () => {
     );
     screen.getByRole('heading', { name: 'Oops! Something went wrong.' });
     screen.getByRole('heading', { name: 'Please try later again.' });
-    console.error = errorObject;
-    console.log = logObject;
+  });
+
+  test('should be able to try again, and remove the error content', () => {
+    const { rerender } = render(
+      <ErrorBoundary>
+        <Bomb shouldThrow={true} />
+        {mockChildren}
+      </ErrorBoundary>
+    );
+    // state is prever
+    rerender(<ErrorBoundary children={mockChildren} />);
+    userEvent.click(screen.getByText(/try again/i));
+    expect(
+      screen.queryByRole('heading', { name: 'Oops! Something went wrong.' })
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/try again/i)).not.toBeInTheDocument();
   });
 });
