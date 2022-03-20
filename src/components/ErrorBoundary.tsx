@@ -31,6 +31,9 @@ export default class ErrorBoundary extends Component<Props, State> {
         <div className='app-error-container'>
           <h1>Oops! Something went wrong.</h1>
           <h2>Please try later again.</h2>
+          <button onClick={() => this.setState({ hasError: false })}>
+            Try again
+          </button>
         </div>
       );
     }
