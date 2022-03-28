@@ -34,7 +34,6 @@ firebase-debug.*.log*
 # Firebase config
 .firebaserc
 
-.github
 
 # Runtime data
 pids
