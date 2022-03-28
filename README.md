@@ -8,6 +8,7 @@
 - Local weather data would be fetched via third-party API when the user gave permission to use the geolocation.
 - Converted the JavaScript code base over to TypeScript.
 - Used React Testing Library to test components.
+- Used Github actions to perform the CICD.
 
 The live project is hosted using Firebase, feel free to have a play around with it:
 https://aaronlin-project-chatroom.web.app/
