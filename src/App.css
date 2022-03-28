@@ -42,6 +42,10 @@ body {
   overflow: hidden;
 }
 
+.weather-city {
+  padding-top: 10px;
+}
+
 .weather-container .weather-info {
   display: flex;
   justify-content: center;
@@ -58,6 +62,11 @@ body {
   height: 100%;
   object-fit: cover;
 }
+
+.weather-temperature {
+  font-size: 15px;
+}
+
 .chat-container {
   display: flex;
   flex-direction: column;
@@ -588,6 +597,12 @@ input[type='file'] {
   p.messageText {
     max-width: 280px;
     line-height: 18px;
+  }
+  .weather-city {
+    font-size: 12px;
+  }
+  .weather-temperature {
+    font-size: 10px;
   }
 }
 
