@@ -47,7 +47,7 @@ function WeatherInfo() {
   if (weatherData) {
     return (
       <div className='weather-container'>
-        <h2>{weatherData.name}</h2>
+        <h3 className='weather-city'>{weatherData.name}</h3>
         <div className='weather-info'>
           <div className='weather-img-wrapper'>
             <img
@@ -55,7 +55,7 @@ function WeatherInfo() {
               alt={weatherData.weather[0].description}
             />
           </div>
-          <span>{`${weatherData.main.temp_min.toFixed()}\u00B0C - ${weatherData.main.temp_max.toFixed()} \u00B0C`}</span>
+          <span className='weather-temperature'>{`${weatherData.main.temp_min.toFixed()}\u00B0C - ${weatherData.main.temp_max.toFixed()} \u00B0C`}</span>
         </div>
       </div>
     );
