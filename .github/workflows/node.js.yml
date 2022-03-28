@@ -38,12 +38,6 @@ jobs:
         REACT_APP_FIREBASE_APP_ID: ${{ secrets.REACT_APP_FIREBASE_APP_ID }}
     - name: Build
       run: npm run build
-    - name: Archive Production Artifact
-      uses: actions/upload-artifact@master
-      with:
-        name: dist
-        path: dist
-
 
   deploy:
     name: Deploy
@@ -53,12 +47,6 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
-
-      - name: Download Artifact
-        uses: actions/download-artifact@master
-        with:
-          name: dist
-          path: dist  
 
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
