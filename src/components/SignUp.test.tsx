@@ -1,9 +1,24 @@
 import SignUp from './SignUp';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
+import { enableNetwork, disableNetwork } from 'firebase/firestore';
+import { db } from '../firebase';
 
 describe('Test suite for SignUp component', () => {
+  const errorObject = console.error;
+  const logObject = console.log;
+  beforeEach(async () => {
+    console.error = jest.fn();
+    console.log = jest.fn();
+    await enableNetwork(db);
+  });
+
+  afterEach(async () => {
+    console.error = errorObject;
+    console.log = logObject;
+    await disableNetwork(db);
+  });
   const setup = () => {
     jest.useFakeTimers();
     const toggleSignIn = jest.fn();
@@ -69,7 +84,6 @@ describe('Test suite for SignUp component', () => {
   test('should allow email address to be inputted', () => {
     const { inputEmail } = setup();
     expect(inputEmail.value).toBe('');
-    // fireEvent.change(inputEmail, { target: { value: 'test@test.com' } });
     const text = 'test@test.com';
     userEvent.type(inputEmail, text);
     expect(inputEmail.value).toBe('test@test.com');
@@ -77,10 +91,8 @@ describe('Test suite for SignUp component', () => {
 
   test('should allow email address to be deleted', () => {
     const { inputEmail } = setup();
-    // fireEvent.change(inputEmail, { target: { value: 'test@test.com' } });
     userEvent.type(inputEmail, 'test@test.com');
     expect(inputEmail.value).toBe('test@test.com');
-    // fireEvent.change(inputEmail, { target: { value: '' } });
     userEvent.clear(inputEmail);
     expect(inputEmail.value).toBe('');
   });
@@ -88,18 +100,14 @@ describe('Test suite for SignUp component', () => {
   test('should allow password to be inputted', () => {
     const { inputPassword } = setup();
     expect(inputPassword.value).toBe('');
-    // fireEvent.change(inputPassword, { target: { value: '1234567' } });
-    // screen.debug(inputPassword);
     userEvent.type(inputPassword, '1234567');
     expect(inputPassword.value).toBe('1234567');
   });
 
   test('should allow password to be deleted', () => {
     const { inputPassword } = setup();
-    // fireEvent.change(inputPassword, { target: { value: '1234567' } });
     userEvent.type(inputPassword, '1234567');
     expect(inputPassword.value).toBe('1234567');
-    // fireEvent.change(inputPassword, { target: { value: '' } });
     userEvent.clear(inputPassword);
     expect(inputPassword.value).toBe('');
   });
@@ -107,18 +115,14 @@ describe('Test suite for SignUp component', () => {
   test('should allow confirm password to be inputted', () => {
     const { inputPassword2 } = setup();
     expect(inputPassword2.value).toBe('');
-    // fireEvent.change(inputPassword2, { target: { value: '1234567' } });
-    // screen.debug(inputPassword2);
     userEvent.type(inputPassword2, '1234567');
     expect(inputPassword2.value).toBe('1234567');
   });
 
   test('should allow confirm password to be deleted', () => {
     const { inputPassword2 } = setup();
-    // fireEvent.change(inputPassword2, { target: { value: '1234567' } });
     userEvent.type(inputPassword2, '1234567');
     expect(inputPassword2.value).toBe('1234567');
-    // fireEvent.change(inputPassword2, { target: { value: '' } });
     userEvent.clear(inputPassword2);
     expect(inputPassword2.value).toBe('');
   });
@@ -126,7 +130,6 @@ describe('Test suite for SignUp component', () => {
   test('should validate form fields when click sign in button', async () => {
     const { signUpButton } = setup();
     userEvent.click(signUpButton);
-    // screen.debug(await screen.findByRole('alert'));
     expect(await screen.findByRole('alert')).toBeInTheDocument();
   });
 
@@ -134,7 +137,9 @@ describe('Test suite for SignUp component', () => {
     const { signUpButton } = setup();
     userEvent.click(signUpButton);
     expect(await screen.findByRole('alert')).toBeInTheDocument();
-    jest.runAllTimers();
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   });
 });

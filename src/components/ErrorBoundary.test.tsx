@@ -3,18 +3,18 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import ErrorBoundary from './ErrorBoundary';
 
-const errorObject = console.error;
-const logObject = console.log;
-beforeEach(() => {
-  console.error = jest.fn();
-  // console.log = jest.fn();
-});
-
-afterEach(() => {
-  console.error = errorObject;
-  console.log = logObject;
-});
 describe('Test suites for ErrorBoundary component', () => {
+  const errorObject = console.error;
+  const logObject = console.log;
+  beforeEach(() => {
+    console.error = jest.fn();
+    console.log = jest.fn();
+  });
+
+  afterEach(() => {
+    console.error = errorObject;
+    console.log = logObject;
+  });
   const mockChildren = <h1>Mock children</h1>;
   function Bomb({ shouldThrow }: { shouldThrow: boolean }) {
     if (shouldThrow) {

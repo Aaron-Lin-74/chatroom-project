@@ -1,8 +1,18 @@
 import { screen, render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ChatRoom from './ChatRoom';
+import { enableNetwork, disableNetwork } from 'firebase/firestore';
+import { db } from '../firebase';
 
 describe('ChatRoom component', () => {
+  beforeEach(async () => {
+    await enableNetwork(db);
+  });
+
+  afterEach(async () => {
+    await disableNetwork(db);
+  });
+
   test('should match the snapshot', () => {
     const { asFragment } = render(<ChatRoom />);
     expect(asFragment()).toMatchSnapshot();

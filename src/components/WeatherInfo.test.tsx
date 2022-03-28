@@ -1,9 +1,8 @@
 import WeatherInfo from './WeatherInfo';
-import { screen, render, fireEvent } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import { scryRenderedComponentsWithType } from 'react-dom/test-utils';
 
 const server = setupServer(
   rest.get('https://fcc-weather-api.glitch.me/api/current', (req, res, ctx) => {
@@ -16,11 +15,6 @@ const server = setupServer(
     );
   })
 );
-
-// beforeAll(() => server.listen({ onUnhandledRequest: 'bypass' }));
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
 
 const mockNavigatorGeolocation = () => {
   const clearWatchMock = jest.fn();
@@ -42,6 +36,19 @@ const mockNavigatorGeolocation = () => {
 };
 
 describe('Test suites for WeatherInfo component', () => {
+  const errorObject = console.error;
+  const logObject = console.log;
+  beforeEach(() => {
+    console.error = jest.fn();
+    console.log = jest.fn();
+  });
+  beforeAll(() => server.listen());
+  afterEach(() => {
+    server.resetHandlers();
+    console.error = errorObject;
+    console.log = logObject;
+  });
+  afterAll(() => server.close());
   test('should match the snapshot', () => {
     const { asFragment } = render(<WeatherInfo />);
     expect(asFragment()).toMatchSnapshot();

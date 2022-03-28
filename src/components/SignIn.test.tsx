@@ -1,17 +1,19 @@
 import SignIn from './SignIn';
-import {
-  render,
-  screen,
-  fireEvent,
-  cleanup,
-  act,
-} from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-
-afterEach(cleanup);
+import { enableNetwork, disableNetwork } from 'firebase/firestore';
+import { db } from '../firebase';
 
 describe('Test suite for SignIn component', () => {
+  beforeEach(async () => {
+    await enableNetwork(db);
+  });
+
+  afterEach(async () => {
+    await disableNetwork(db);
+  });
+
   const setup = () => {
     jest.useFakeTimers();
     const toggleSignIn = jest.fn();
@@ -72,7 +74,6 @@ describe('Test suite for SignIn component', () => {
   test('should allow email address to be inputted', () => {
     const { inputEmail } = setup();
     expect(inputEmail.value).toBe('');
-    // fireEvent.change(inputEmail, { target: { value: 'test@test.com' } });
     const text = 'test@test.com';
     userEvent.type(inputEmail, text);
     expect(inputEmail.value).toBe('test@test.com');
@@ -80,10 +81,8 @@ describe('Test suite for SignIn component', () => {
 
   test('should allow email address to be deleted', () => {
     const { inputEmail } = setup();
-    // fireEvent.change(inputEmail, { target: { value: 'test@test.com' } });
     userEvent.type(inputEmail, 'test@test.com');
     expect(inputEmail.value).toBe('test@test.com');
-    // fireEvent.change(inputEmail, { target: { value: '' } });
     userEvent.clear(inputEmail);
     expect(inputEmail.value).toBe('');
   });
@@ -91,18 +90,14 @@ describe('Test suite for SignIn component', () => {
   test('should allow password to be inputted', () => {
     const { inputPassword } = setup();
     expect(inputPassword.value).toBe('');
-    // fireEvent.change(inputPassword, { target: { value: '1234567' } });
-    // screen.debug(inputPassword);
     userEvent.type(inputPassword, '1234567');
     expect(inputPassword.value).toBe('1234567');
   });
 
   test('should allow password to be deleted', () => {
     const { inputPassword } = setup();
-    // fireEvent.change(inputPassword, { target: { value: '1234567' } });
     userEvent.type(inputPassword, '1234567');
     expect(inputPassword.value).toBe('1234567');
-    // fireEvent.change(inputPassword, { target: { value: '' } });
     userEvent.clear(inputPassword);
     expect(inputPassword.value).toBe('');
   });
@@ -110,7 +105,6 @@ describe('Test suite for SignIn component', () => {
   test('should validate form fields when click sign in button', async () => {
     const { signInButton } = setup();
     userEvent.click(signInButton);
-    // screen.debug(await screen.findByRole('alert'));
     expect(await screen.findByRole('alert')).toBeInTheDocument();
   });
 
@@ -118,7 +112,9 @@ describe('Test suite for SignIn component', () => {
     const { signInButton } = setup();
     userEvent.click(signInButton);
     expect(await screen.findByRole('alert')).toBeInTheDocument();
-    jest.runAllTimers();
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   });
 });
