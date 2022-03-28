@@ -28,7 +28,7 @@ jobs:
     - name: Install Dependencies
       run: npm ci
     - name: Test
-      run: npm test
+      run: npm test -- --ci --watchAll=false
       env:
         REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
         REACT_APP_FIREBASE_AUTH_DOMAIN: ${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}
@@ -36,7 +36,6 @@ jobs:
         REACT_APP_FIREBASE_STORAGE_BUCKET: ${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}
         REACT_APP_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}
         REACT_APP_FIREBASE_APP_ID: ${{ secrets.REACT_APP_FIREBASE_APP_ID }}
-        CI: true
     - name: Build
       run: npm run build
     - name: Archive Production Artifact
