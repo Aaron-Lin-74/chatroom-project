@@ -1,17 +1,19 @@
 import SignIn from './SignIn';
-import {
-  render,
-  screen,
-  fireEvent,
-  cleanup,
-  act,
-} from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-
-afterEach(cleanup);
+import { enableNetwork, disableNetwork } from 'firebase/firestore';
+import { db } from '../firebase';
 
 describe('Test suite for SignIn component', () => {
+  beforeEach(async () => {
+    await enableNetwork(db);
+  });
+
+  afterEach(async () => {
+    await disableNetwork(db);
+  });
+
   const setup = () => {
     jest.useFakeTimers();
     const toggleSignIn = jest.fn();

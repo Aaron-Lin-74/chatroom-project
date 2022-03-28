@@ -2,18 +2,22 @@ import SignUp from './SignUp';
 import { render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
+import { enableNetwork, disableNetwork } from 'firebase/firestore';
+import { db } from '../firebase';
 
 describe('Test suite for SignUp component', () => {
   const errorObject = console.error;
   const logObject = console.log;
-  beforeEach(() => {
+  beforeEach(async () => {
     console.error = jest.fn();
     console.log = jest.fn();
+    await enableNetwork(db);
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     console.error = errorObject;
     console.log = logObject;
+    await disableNetwork(db);
   });
   const setup = () => {
     jest.useFakeTimers();

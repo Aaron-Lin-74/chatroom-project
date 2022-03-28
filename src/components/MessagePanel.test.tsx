@@ -2,8 +2,18 @@ import { screen, render, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import MessagePanel from './MessagePanel';
+import { enableNetwork, disableNetwork } from 'firebase/firestore';
+import { db } from '../firebase';
 
 describe('Test suits for MessagePanel component', () => {
+  beforeEach(async () => {
+    await enableNetwork(db);
+  });
+
+  afterEach(async () => {
+    await disableNetwork(db);
+  });
+
   test('should match the snapshot', () => {
     const { asFragment } = render(<MessagePanel />);
     expect(asFragment()).toMatchSnapshot();
