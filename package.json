@@ -2,7 +2,11 @@
   "name": "firebase-chat-app",
   "version": "1.2.0",
   "private": true,
-  "author": "Aaron Lin",
+  "author": {
+    "name": "Aaron Lin",
+    "email": "aaronlin74@gmail.com",
+    "url": "https://aaron-lin-74.github.io/personal-portfolio/"
+  },
   "description": "A public chat room application that signed in users can communicate and share photos",
   "keywords": [
     "chat",
