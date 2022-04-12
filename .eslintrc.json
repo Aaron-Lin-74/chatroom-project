@@ -1,0 +1,58 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
+      "useJSXTextNode": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "extends": [
+    "airbnb",
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "plugin:jest/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": ["react", "react-hooks", "@typescript-eslint", "jest"],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "rules": {
+    "no-console": "off",
+    "linebreak-style": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/react-in-jsx-scope": "off",
+    "jest/expect-expect": "off",
+    "prettier/prettier": [
+      "warn",
+      {
+        "endOfLine": "auto",
+        "arrowParens": "always",
+        "singleQuote": true,
+        "jsxSingleQuote": true,
+        "printWidth": 80
+      }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
+  }
+}
