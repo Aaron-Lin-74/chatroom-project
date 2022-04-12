@@ -1,14 +1,13 @@
-import { auth } from '../firebase';
 import { useRef } from 'react';
+import { auth } from '../firebase';
 import { MessageType } from '../types/message';
 
 interface PropsType {
   message: MessageType;
   scrollDown: () => void;
 }
-function ChatMessage(props: PropsType) {
-  const { text, uid, photoURL, imageUrl, createdAt } = props.message;
-  const { scrollDown } = props;
+function ChatMessage({ message, scrollDown }: PropsType) {
+  const { text, uid, photoURL, imageUrl, createdAt } = message;
   const myModal = useRef<HTMLDivElement>(null!);
   const imageModal = useRef<HTMLImageElement>(null!);
   const profileModal = useRef<HTMLDivElement>(null!);
@@ -24,7 +23,7 @@ function ChatMessage(props: PropsType) {
     imageModal.current.setAttribute('src', imageUrl!);
   };
 
-  /** Close the modal when the user clicks on <span> (x)*/
+  /** Close the modal when the user clicks on <span> (x) */
   const closeModal = (): void => {
     // Get the <span> element that closes the modal
     myModal.current.style.display = 'none';
@@ -49,20 +48,32 @@ function ChatMessage(props: PropsType) {
         <p className='messageTime'>{createdAt}</p>
       </div>
       <div className={`message ${messageClass}`}>
-        <img
-          className='profilePhoto'
-          src={photoURL || '/images/default_profile.jpg'}
-          referrerPolicy='no-referrer'
-          alt='profile'
+        <div
           onClick={showProfilePhoto}
-        />
+          onKeyDown={showProfilePhoto}
+          role='button'
+          tabIndex={0}
+        >
+          <img
+            className='profilePhoto'
+            src={photoURL || '/images/default_profile.jpg'}
+            referrerPolicy='no-referrer'
+            alt='profile'
+          />
+        </div>
         <div
           className='profile-modal'
           ref={profileModal}
           data-testid='profile-modal'
         >
           <div className='profile-photo-container'>
-            <span onClick={closeProfileModal} className='close-profile-modal'>
+            <span
+              onClick={closeProfileModal}
+              onKeyDown={closeProfileModal}
+              role='button'
+              tabIndex={0}
+              className='close-profile-modal'
+            >
               &times;
             </span>
             <img
@@ -77,20 +88,32 @@ function ChatMessage(props: PropsType) {
           <p className='messageText'>{text}</p>
         ) : (
           <>
-            <img
-              className='photoMessage'
-              src={imageUrl}
-              referrerPolicy='no-referrer'
-              alt='photoMessage'
+            <div
               onClick={showModal}
-              onLoad={scrollDown}
-            />
+              onKeyDown={showModal}
+              role='button'
+              tabIndex={0}
+            >
+              <img
+                className='photoMessage'
+                src={imageUrl}
+                referrerPolicy='no-referrer'
+                alt='photoMessage'
+                onLoad={scrollDown}
+              />
+            </div>
             <div
               className='photoMessage-modal'
               ref={myModal}
               data-testid='photoMessage-modal'
             >
-              <span onClick={closeModal} className='closeModal'>
+              <span
+                onClick={closeModal}
+                className='closeModal'
+                onKeyDown={closeModal}
+                role='button'
+                tabIndex={0}
+              >
                 &times;
               </span>
               <img

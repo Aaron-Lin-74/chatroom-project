@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { FcGoogle } from 'react-icons/fc';
 import {
   auth,
   signInWithEmailAndPassword,
   signInWithGoogle,
 } from '../firebase';
-import { FcGoogle } from 'react-icons/fc';
 
 function SignIn({ toggleSignIn }: { toggleSignIn: () => void }) {
   const [email, setEmail] = useState<string>('');
@@ -13,12 +13,13 @@ function SignIn({ toggleSignIn }: { toggleSignIn: () => void }) {
 
   // If there exits error, disappear the error message in 3s.
   useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
     if (error) {
-      const timer = setTimeout(() => setError(''), 3000);
-      return () => {
-        clearTimeout(timer);
-      };
+      timer = setTimeout(() => setError(''), 3000);
     }
+    return () => {
+      clearTimeout(timer);
+    };
   }, [error]);
   const signInWithEmail = (e: React.FormEvent): void => {
     e.preventDefault();
@@ -38,34 +39,48 @@ function SignIn({ toggleSignIn }: { toggleSignIn: () => void }) {
         </div>
       )}
       <form className='signIn-form' onSubmit={signInWithEmail}>
-        <label htmlFor='email'>Email</label>
-        <input
-          id='email'
-          type='email'
-          placeholder='example@example.com'
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <label htmlFor='password'>Password</label>
-        <input
-          id='password'
-          type='password'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <label htmlFor='email'>
+          Email
+          <input
+            id='email'
+            type='email'
+            placeholder='example@example.com'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </label>
+        <label htmlFor='password'>
+          Password
+          <input
+            id='password'
+            type='password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </label>
         <button type='submit' className='chat-btns sign-in'>
           Sign In
         </button>
       </form>
-      <button className='sign-in chat-btns' onClick={signInWithGoogle}>
+      <button
+        className='sign-in chat-btns'
+        onClick={signInWithGoogle}
+        type='button'
+      >
         <FcGoogle />
         Sign in with Google
       </button>
       <p className='sign-in-text'>
         Do not have an account? You can{' '}
-        <span className='toggle-link' onClick={toggleSignIn}>
+        <span
+          className='toggle-link'
+          onClick={toggleSignIn}
+          onKeyDown={toggleSignIn}
+          tabIndex={0}
+          role='button'
+        >
           sign up
         </span>{' '}
         with email & password, or use Google Account to sign in.

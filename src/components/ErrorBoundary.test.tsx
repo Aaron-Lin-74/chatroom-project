@@ -26,13 +26,14 @@ describe('Test suites for ErrorBoundary component', () => {
   test('should match the snapshot', () => {
     const { asFragment } = render(
       <ErrorBoundary>
-        <Bomb shouldThrow={true} />
+        <Bomb shouldThrow />
       </ErrorBoundary>
     );
     expect(asFragment()).toMatchSnapshot();
   });
 
   test('should render the children component', () => {
+    // eslint-disable-next-line react/no-children-prop
     render(<ErrorBoundary children={mockChildren} />);
     screen.getByRole('heading', { name: 'Mock children' });
   });
@@ -40,7 +41,7 @@ describe('Test suites for ErrorBoundary component', () => {
   test('should render the error page when a component error occurs', () => {
     render(
       <ErrorBoundary>
-        <Bomb shouldThrow={true} />
+        <Bomb shouldThrow />
       </ErrorBoundary>
     );
     screen.getByRole('heading', { name: 'Oops! Something went wrong.' });
@@ -50,11 +51,12 @@ describe('Test suites for ErrorBoundary component', () => {
   test('should be able to try again, and remove the error content', () => {
     const { rerender } = render(
       <ErrorBoundary>
-        <Bomb shouldThrow={true} />
+        <Bomb shouldThrow />
         {mockChildren}
       </ErrorBoundary>
     );
     // state is prever
+    // eslint-disable-next-line react/no-children-prop
     rerender(<ErrorBoundary children={mockChildren} />);
     userEvent.click(screen.getByText(/try again/i));
     expect(

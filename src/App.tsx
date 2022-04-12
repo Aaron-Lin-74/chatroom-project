@@ -27,13 +27,13 @@ function App() {
         </header>
 
         <section className='chat-container'>
-          {user ? (
-            <ChatRoom />
-          ) : signIn ? (
-            <SignIn toggleSignIn={() => setSignIn(!signIn)} />
-          ) : (
-            <SignUp toggleSignIn={() => setSignIn(!signIn)} />
-          )}
+          {user && <ChatRoom />}
+          {!user &&
+            (signIn ? (
+              <SignIn toggleSignIn={() => setSignIn(!signIn)} />
+            ) : (
+              <SignUp toggleSignIn={() => setSignIn(!signIn)} />
+            ))}
         </section>
       </ErrorBoundary>
     </div>

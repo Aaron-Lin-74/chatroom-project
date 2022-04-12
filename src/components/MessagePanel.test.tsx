@@ -1,9 +1,9 @@
-import { screen, render, waitFor, act } from '@testing-library/react';
+import { screen, render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import MessagePanel from './MessagePanel';
 import { enableNetwork, disableNetwork } from 'firebase/firestore';
 import { db } from '../firebase';
+import MessagePanel from './MessagePanel';
 
 describe('Test suits for MessagePanel component', () => {
   beforeEach(async () => {
@@ -57,7 +57,7 @@ describe('Test suits for MessagePanel component', () => {
   });
 
   test('should keep the message input when click send button without currentUser, and throw error', async () => {
-    const errorObject = console.error; //store the state of the object
+    const errorObject = console.error; // store the state of the object
     console.error = jest.fn(); // mock the object
     render(<MessagePanel />);
     const messageInput = screen.getByPlaceholderText(

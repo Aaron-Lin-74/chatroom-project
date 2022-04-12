@@ -10,7 +10,7 @@ function ChatRoom() {
   const spanRef = useRef<HTMLSpanElement>(null);
   const chatBoxRef = useRef<HTMLDivElement>(null);
 
-  /** If the user has scroll to the top of the chat box, then show the sapn of 'show more'.*/
+  /** If the user has scroll to the top of the chat box, then show the sapn of 'show more'. */
   const checkScrollTop = (e: Event): void => {
     const targetDiv = e.target as HTMLDivElement;
     if (targetDiv.scrollTop === 0) {
@@ -21,14 +21,20 @@ function ChatRoom() {
     }
   };
 
-  /** Load 25 more old messages when the user click show more span, then set the span invisible*/
+  /** Load 25 more old messages when the user click show more span, then set the span invisible */
   const showMoreMessages = (): void => {
-    setMessageNumber((messageNumber) => (messageNumber += 25));
+    setMessageNumber((prevMessageNumber) => prevMessageNumber + 25);
     if (spanRef.current !== null) {
       spanRef.current.style.display = 'none';
     }
   };
 
+  /** Scroll to the bottom of the chatbox. */
+  const scrollDown = (): void => {
+    if (chatBoxRef.current !== null) {
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    }
+  };
   useEffect(() => {
     // Check whether to load the extra messages when scroll to top
     const chatBox = chatBoxRef.current;
@@ -48,6 +54,30 @@ function ChatRoom() {
     // Create the query to load the last n messages and listen for new ones.
     const query = getMessageQuery(messageNumber);
 
+    /**
+     * Change the time format to '00:00'
+     * @param hour - The hour number
+     * @param minute - The minute number
+     * @returns The time in 00:00 format
+     */
+    const formatTime = (hour: number, minute: number): string => {
+      return `${hour < 10 ? `0${hour}` : hour}:${
+        minute < 10 ? `0${minute}` : minute
+      }`;
+    };
+
+    /** Check if two dates are of the same day */
+    const isSameDay = (date1: Date, date2: Date): boolean => {
+      if (
+        date1.getFullYear() === date2.getFullYear() &&
+        date1.getMonth() === date2.getMonth() &&
+        date1.getDate() === date2.getDate()
+      ) {
+        return true;
+      }
+      return false;
+    };
+
     /** If new message being sent in the same day, just show the hour:min, otherwise show the date and time. */
     const displayTime = (date: Date): string => {
       const now = new Date();
@@ -59,7 +89,8 @@ function ChatRoom() {
         date.getMinutes()
       )}`;
     };
-    const unsubscribe = onSnapshot(query, function (snapshot) {
+
+    const unsubscribe = onSnapshot(query, (snapshot) => {
       const descMessages: MessageType[] = snapshot.docs.map((doc) => {
         // Add createdAt, and unique id properties to the message data object.
         return {
@@ -77,39 +108,16 @@ function ChatRoom() {
     return unsubscribe;
   }, [messageNumber]);
 
-  /** Scroll to the bottom of the chatbox.*/
-  const scrollDown = (): void => {
-    if (chatBoxRef.current !== null) {
-      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
-    }
-  };
-
-  /**
-   * Change the time format to '00:00'
-   * @param hour - The hour number
-   * @param minute - The minute number
-   * @returns The time in 00:00 format
-   */
-  const formatTime = (hour: number, minute: number): string => {
-    return `${hour < 10 ? '0' + hour : hour}:${
-      minute < 10 ? '0' + minute : minute
-    }`;
-  };
-
-  /** Check if two dates are of the same day*/
-  const isSameDay = (date1: Date, date2: Date): boolean => {
-    if (
-      date1.getFullYear() === date2.getFullYear() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getDate() === date2.getDate()
-    ) {
-      return true;
-    }
-    return false;
-  };
   return (
     <main id='chatBox' ref={chatBoxRef}>
-      <span id='show-more-message' ref={spanRef} onClick={showMoreMessages}>
+      <span
+        id='show-more-message'
+        ref={spanRef}
+        onClick={showMoreMessages}
+        onKeyDown={showMoreMessages}
+        role='button'
+        tabIndex={0}
+      >
         _______ Show more ________
       </span>
       <div className='message-box'>

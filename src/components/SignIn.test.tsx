@@ -1,9 +1,9 @@
-import SignIn from './SignIn';
 import { render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { enableNetwork, disableNetwork } from 'firebase/firestore';
 import { db } from '../firebase';
+import SignIn from './SignIn';
 
 describe('Test suite for SignIn component', () => {
   beforeEach(async () => {
