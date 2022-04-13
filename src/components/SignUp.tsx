@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
-import {
-  signInWithGoogle,
-  auth,
-  createUserWithEmailAndPassword,
-} from '../firebase';
+import { Auth, UserCredential } from 'firebase/auth';
+import { auth } from '../firebase';
 
-function SignUp({ toggleSignIn }: { toggleSignIn: () => void }) {
+interface Props {
+  toggleSignIn: () => void;
+  signInWithGoogle: () => Promise<void>;
+  createUserWithEmailAndPassword(
+    auth: Auth,
+    email: string,
+    password: string
+  ): Promise<UserCredential>;
+}
+function SignUp({
+  toggleSignIn,
+  signInWithGoogle,
+  createUserWithEmailAndPassword,
+}: Props) {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [password2, setPassword2] = useState<string>('');

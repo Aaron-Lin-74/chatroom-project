@@ -1,12 +1,22 @@
+import { Auth, UserCredential } from 'firebase/auth';
 import React, { useState, useEffect } from 'react';
 import { FcGoogle } from 'react-icons/fc';
-import {
-  auth,
+import { auth } from '../firebase';
+
+interface Props {
+  toggleSignIn: () => void;
+  signInWithEmailAndPassword(
+    auth: Auth,
+    email: string,
+    password: string
+  ): Promise<UserCredential>;
+  signInWithGoogle: () => Promise<void>;
+}
+function SignIn({
+  toggleSignIn,
   signInWithEmailAndPassword,
   signInWithGoogle,
-} from '../firebase';
-
-function SignIn({ toggleSignIn }: { toggleSignIn: () => void }) {
+}: Props) {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
@@ -21,6 +31,7 @@ function SignIn({ toggleSignIn }: { toggleSignIn: () => void }) {
       clearTimeout(timer);
     };
   }, [error]);
+
   const signInWithEmail = (e: React.FormEvent): void => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password).catch((err) => {
@@ -31,6 +42,7 @@ function SignIn({ toggleSignIn }: { toggleSignIn: () => void }) {
       }
     });
   };
+
   return (
     <div className='signIn-container'>
       {error && (

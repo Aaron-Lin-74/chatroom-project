@@ -1,4 +1,4 @@
-import { render, screen, act } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { enableNetwork, disableNetwork } from 'firebase/firestore';
@@ -22,7 +22,17 @@ describe('Test suite for SignUp component', () => {
   const setup = () => {
     jest.useFakeTimers();
     const toggleSignIn = jest.fn();
-    const utils = render(<SignUp toggleSignIn={toggleSignIn} />);
+    const mockSignInWithGoogle = jest.fn();
+    const mockCreateUserWithEmailAndPassword = jest
+      .fn()
+      .mockRejectedValue(new Error('Mock Error Message'));
+    const utils = render(
+      <SignUp
+        toggleSignIn={toggleSignIn}
+        signInWithGoogle={mockSignInWithGoogle}
+        createUserWithEmailAndPassword={mockCreateUserWithEmailAndPassword}
+      />
+    );
     const inputEmail = utils.getByLabelText('Email') as HTMLInputElement;
     const inputPassword = utils.getByLabelText(
       'Password (at least 6 characters)'
@@ -62,7 +72,7 @@ describe('Test suite for SignUp component', () => {
       signUpWithGoogleButton,
     } = setup();
     expect(screen.getByText(/Already have an account?/)).toBeInTheDocument();
-    expect(buttons).toHaveLength(2);
+    expect(buttons).toHaveLength(3);
     expect(signUpButton).toHaveTextContent('Sign Up');
     expect(signUpWithGoogleButton).toHaveTextContent('Sign up with Google');
     expect(inputEmail).toBeInTheDocument();
@@ -125,21 +135,5 @@ describe('Test suite for SignUp component', () => {
     expect(inputPassword2.value).toBe('1234567');
     userEvent.clear(inputPassword2);
     expect(inputPassword2.value).toBe('');
-  });
-
-  test('should validate form fields when click sign in button', async () => {
-    const { signUpButton } = setup();
-    userEvent.click(signUpButton);
-    expect(await screen.findByRole('alert')).toBeInTheDocument();
-  });
-
-  test('should error alert disappear after timeout', async () => {
-    const { signUpButton } = setup();
-    userEvent.click(signUpButton);
-    expect(await screen.findByRole('alert')).toBeInTheDocument();
-    act(() => {
-      jest.runAllTimers();
-    });
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   });
 });

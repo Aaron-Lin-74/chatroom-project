@@ -1,6 +1,11 @@
 import './App.css';
 import React, { useState } from 'react';
-import { useAuth, signOutUser } from './firebase';
+import {
+  useAuth,
+  signInWithEmailAndPassword,
+  signInWithGoogle,
+  signOutUser,
+} from './firebase';
 
 import UserInfo from './components/UserInfo';
 import SignIn from './components/SignIn';
@@ -30,7 +35,11 @@ function App() {
           {user && <ChatRoom />}
           {!user &&
             (signIn ? (
-              <SignIn toggleSignIn={() => setSignIn(!signIn)} />
+              <SignIn
+                toggleSignIn={() => setSignIn(!signIn)}
+                signInWithEmailAndPassword={signInWithEmailAndPassword}
+                signInWithGoogle={signInWithGoogle}
+              />
             ) : (
               <SignUp toggleSignIn={() => setSignIn(!signIn)} />
             ))}
