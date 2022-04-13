@@ -12,25 +12,25 @@ exports[`Test suite for SignIn component should match the snapshot 1`] = `
         for="email"
       >
         Email
+        <input
+          id="email"
+          placeholder="example@example.com"
+          required=""
+          type="email"
+          value=""
+        />
       </label>
-      <input
-        id="email"
-        placeholder="example@example.com"
-        required=""
-        type="email"
-        value=""
-      />
       <label
         for="password"
       >
         Password
+        <input
+          id="password"
+          required=""
+          type="password"
+          value=""
+        />
       </label>
-      <input
-        id="password"
-        required=""
-        type="password"
-        value=""
-      />
       <button
         class="chat-btns sign-in"
         type="submit"
@@ -40,6 +40,7 @@ exports[`Test suite for SignIn component should match the snapshot 1`] = `
     </form>
     <button
       class="sign-in chat-btns"
+      type="button"
     >
       <svg
         enable-background="new 0 0 48 48"
@@ -84,6 +85,8 @@ exports[`Test suite for SignIn component should match the snapshot 1`] = `
       Do not have an account? You can 
       <span
         class="toggle-link"
+        role="button"
+        tabindex="0"
       >
         sign up
       </span>

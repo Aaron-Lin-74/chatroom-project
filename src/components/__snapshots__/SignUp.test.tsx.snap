@@ -12,36 +12,36 @@ exports[`Test suite for SignUp component should match the snapshot 1`] = `
       for="email"
     >
       Email
+      <input
+        id="email"
+        placeholder="example@example.com"
+        required=""
+        type="email"
+        value=""
+      />
     </label>
-    <input
-      id="email"
-      placeholder="example@example.com"
-      required=""
-      type="email"
-      value=""
-    />
     <label
       for="password"
     >
       Password (at least 6 characters)
+      <input
+        id="password"
+        required=""
+        type="password"
+        value=""
+      />
     </label>
-    <input
-      id="password"
-      required=""
-      type="password"
-      value=""
-    />
     <label
       for="password2"
     >
       Confirm Password
+      <input
+        id="password2"
+        required=""
+        type="password"
+        value=""
+      />
     </label>
-    <input
-      id="password2"
-      required=""
-      type="password"
-      value=""
-    />
     <button
       class="chat-btns sign-up"
       type="submit"
@@ -95,10 +95,11 @@ exports[`Test suite for SignUp component should match the snapshot 1`] = `
      
     <span
       class="toggle-link"
+      role="button"
+      tabindex="0"
     >
       sign in
     </span>
-     
     with email & password, or use Google Account to sign in.
   </p>
 </div>
