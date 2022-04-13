@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   signInWithGoogle,
   signOutUser,
+  createUserWithEmailAndPassword,
 } from './firebase';
 
 import UserInfo from './components/UserInfo';
@@ -41,7 +42,11 @@ function App() {
                 signInWithGoogle={signInWithGoogle}
               />
             ) : (
-              <SignUp toggleSignIn={() => setSignIn(!signIn)} />
+              <SignUp
+                toggleSignIn={() => setSignIn(!signIn)}
+                signInWithGoogle={signInWithGoogle}
+                createUserWithEmailAndPassword={createUserWithEmailAndPassword}
+              />
             ))}
         </section>
       </ErrorBoundary>
