@@ -22,7 +22,6 @@
   "bugs": {
     "url": "https://github.com/Aaron-Lin-74/chatroom-project/issues"
   },
-  "homepage":"https://github.com/Aaron-Lin-74/chatroom-project#readme",
   "license": "MIT",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.1",
