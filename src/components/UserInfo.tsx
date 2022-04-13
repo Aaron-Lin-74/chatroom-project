@@ -1,17 +1,16 @@
 import React, { useState, useRef } from 'react';
-import { auth, updateProfile, getMessagesAndUpdatePhoto } from '../firebase';
 import { FaTimes } from 'react-icons/fa';
-
 import {
   getStorage,
   ref,
   uploadBytesResumable,
   getDownloadURL,
 } from 'firebase/storage';
+import { auth, updateProfile, getMessagesAndUpdatePhoto } from '../firebase';
 
 function UserInfo() {
   const user = auth.currentUser!;
-  let isHidden = !user;
+  const isHidden = !user;
   const displayName: string = user.displayName!;
   const profile = useRef<HTMLDivElement>(null);
   const [photo, setPhoto] = useState<File | null>(null);
@@ -19,22 +18,28 @@ function UserInfo() {
   const [userName, setUserName] = useState<string>(displayName);
   const [userNameForm, setUserNameForm] = useState<string>(displayName);
 
-  /** Set the profile photo to the selected image.*/
+  /** Set the profile photo to the selected image. */
   function onMediaFileSelected(e: React.ChangeEvent<HTMLInputElement>): void {
     e.preventDefault();
     if (e.target.files && e.target.files[0]) {
-      const photo = e.target.files[0];
+      const photoFile = e.target.files[0];
       // Check if the file is an image.
-      if (!photo.type.match('image.*')) {
+      if (!photoFile.type.match('image.*')) {
+        // eslint-disable-next-line no-alert
         alert('You can only upload image for profile');
         return;
       }
       // Check if the user is signed-in
       if (user !== null) {
-        setPhoto(photo);
+        setPhoto(photoFile);
       }
     }
   }
+  const closeProfile = () => {
+    if (profile.current !== null) {
+      profile.current.style.display = 'none';
+    }
+  };
 
   /**
    * Update the profile details, like displayName and photoURL.
@@ -81,21 +86,21 @@ function UserInfo() {
     }
   };
 
-  const closeProfile = () => {
-    if (profile.current !== null) {
-      profile.current.style.display = 'none';
-    }
-  };
-
   return (
     <div className='user-info' hidden={isHidden}>
-      <img
-        className='profilePhoto'
-        src={user?.photoURL || '/images/default_profile.jpg'}
-        referrerPolicy='no-referrer'
-        alt='profile'
+      <div
         onClick={showProfile}
-      />
+        onKeyDown={showProfile}
+        role='button'
+        tabIndex={0}
+      >
+        <img
+          className='profilePhoto'
+          src={user?.photoURL || '/images/default_profile.jpg'}
+          referrerPolicy='no-referrer'
+          alt='profile'
+        />
+      </div>
       <h1>{userName}</h1>
       <div id='update-profile-container' ref={profile}>
         <h2>Update your profile</h2>
@@ -109,24 +114,26 @@ function UserInfo() {
         )}
         <form className='update-profile-form'>
           <FaTimes onClick={closeProfile} id='update-profile-close' />
-          <label htmlFor='displayName'>New Username</label>
-          <input
-            id='displayName'
-            name='displayName'
-            type='text'
-            value={userNameForm}
-            onChange={(e) => setUserNameForm(e.target.value)}
-          />
+          <label htmlFor='displayName'>
+            New Username
+            <input
+              id='displayName'
+              name='displayName'
+              type='text'
+              value={userNameForm}
+              onChange={(e) => setUserNameForm(e.target.value)}
+            />
+          </label>
           <label htmlFor='profile-Photo' id='profile-label'>
             New Profile Photo
+            <input
+              id='profile-Photo'
+              name='profilePhoto'
+              type='file'
+              accept='image/*'
+              onChange={onMediaFileSelected}
+            />
           </label>
-          <input
-            id='profile-Photo'
-            name='profilePhoto'
-            type='file'
-            accept='image/*'
-            onChange={onMediaFileSelected}
-          />
           <button
             className='chat-btns'
             type='button'

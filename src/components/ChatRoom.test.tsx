@@ -1,8 +1,8 @@
 import { screen, render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ChatRoom from './ChatRoom';
 import { enableNetwork, disableNetwork } from 'firebase/firestore';
 import { db } from '../firebase';
+import ChatRoom from './ChatRoom';
 
 describe('ChatRoom component', () => {
   beforeEach(async () => {

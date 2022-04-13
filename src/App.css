@@ -125,10 +125,13 @@ main {
 }
 
 .signIn-form label {
+  display: flex;
+  flex-direction: column;
+
   font-size: 1rem;
 
   color: #fff;
-  text-align: left;
+  text-align: center;
 }
 
 .signIn-form input {
@@ -525,7 +528,10 @@ input[type='file'] {
   position: relative;
   left: 50%;
 }
-
+.update-profile-form label {
+  display: flex;
+  flex-direction: column;
+}
 .update-profile-form input {
   line-height: 1.5;
   width: 200px;

@@ -3,17 +3,6 @@ import { WeatherType } from '../types/weather';
 
 function WeatherInfo() {
   const [weatherData, setWeatherData] = useState<WeatherType | null>(null);
-  useEffect(() => {
-    function getLocationAndFetchWeather(): void {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(fetchWeather, showError);
-      } else {
-        console.log('Geolocation is not supported by this browser.');
-      }
-    }
-
-    getLocationAndFetchWeather();
-  }, []);
 
   /** Fetch weather data from third-party API, and update the state */
   function fetchWeather(position: GeolocationPosition): void {
@@ -26,7 +15,6 @@ function WeatherInfo() {
       })
       .catch((err) => console.log(err));
   }
-
   function showError(error: GeolocationPositionError): void {
     switch (error.code) {
       case error.PERMISSION_DENIED:
@@ -40,9 +28,19 @@ function WeatherInfo() {
         break;
       default:
         console.log('An unknown error occurred.');
-        return;
     }
   }
+  useEffect(() => {
+    function getLocationAndFetchWeather(): void {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(fetchWeather, showError);
+      } else {
+        console.log('Geolocation is not supported by this browser.');
+      }
+    }
+
+    getLocationAndFetchWeather();
+  }, []);
 
   if (weatherData) {
     return (
@@ -59,9 +57,8 @@ function WeatherInfo() {
         </div>
       </div>
     );
-  } else {
-    return <h1>💬Chat Room</h1>;
   }
+  return <h1>💬Chat Room</h1>;
 }
 
 export default WeatherInfo;

@@ -1,6 +1,12 @@
 import './App.css';
 import React, { useState } from 'react';
-import { useAuth, signOutUser } from './firebase';
+import {
+  useAuth,
+  signInWithEmailAndPassword,
+  signInWithGoogle,
+  signOutUser,
+  createUserWithEmailAndPassword,
+} from './firebase';
 
 import UserInfo from './components/UserInfo';
 import SignIn from './components/SignIn';
@@ -27,13 +33,21 @@ function App() {
         </header>
 
         <section className='chat-container'>
-          {user ? (
-            <ChatRoom />
-          ) : signIn ? (
-            <SignIn toggleSignIn={() => setSignIn(!signIn)} />
-          ) : (
-            <SignUp toggleSignIn={() => setSignIn(!signIn)} />
-          )}
+          {user && <ChatRoom />}
+          {!user &&
+            (signIn ? (
+              <SignIn
+                toggleSignIn={() => setSignIn(!signIn)}
+                signInWithEmailAndPassword={signInWithEmailAndPassword}
+                signInWithGoogle={signInWithGoogle}
+              />
+            ) : (
+              <SignUp
+                toggleSignIn={() => setSignIn(!signIn)}
+                signInWithGoogle={signInWithGoogle}
+                createUserWithEmailAndPassword={createUserWithEmailAndPassword}
+              />
+            ))}
         </section>
       </ErrorBoundary>
     </div>

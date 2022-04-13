@@ -1,9 +1,9 @@
-import SignIn from './SignIn';
-import { render, screen, act } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { enableNetwork, disableNetwork } from 'firebase/firestore';
 import { db } from '../firebase';
+import SignIn from './SignIn';
 
 describe('Test suite for SignIn component', () => {
   beforeEach(async () => {
@@ -16,8 +16,18 @@ describe('Test suite for SignIn component', () => {
 
   const setup = () => {
     jest.useFakeTimers();
-    const toggleSignIn = jest.fn();
-    const utils = render(<SignIn toggleSignIn={toggleSignIn} />);
+    const mockToggleSignIn = jest.fn();
+    const mockSignInWithEmailAndPassword = jest
+      .fn()
+      .mockRejectedValue(new Error('Mock Error Message'));
+    const mockSignInWithGoogle = jest.fn();
+    const utils = render(
+      <SignIn
+        toggleSignIn={mockToggleSignIn}
+        signInWithEmailAndPassword={mockSignInWithEmailAndPassword}
+        signInWithGoogle={mockSignInWithGoogle}
+      />
+    );
     const inputEmail = utils.getByLabelText('Email') as HTMLInputElement;
     const inputPassword = utils.getByLabelText('Password') as HTMLInputElement;
     const spanToggle = utils.getByText('sign up');
@@ -33,6 +43,7 @@ describe('Test suite for SignIn component', () => {
       buttons,
       signInButton,
       signInWithGoogleButton,
+      mockSignInWithEmailAndPassword,
       ...utils,
     };
   };
@@ -52,7 +63,7 @@ describe('Test suite for SignIn component', () => {
       signInWithGoogleButton,
     } = setup();
     expect(screen.getByText(/Do not have an account?/)).toBeInTheDocument();
-    expect(buttons).toHaveLength(2);
+    expect(buttons).toHaveLength(3);
     expect(signInButton).toBeInTheDocument();
     expect(signInButton).toHaveTextContent('Sign In');
     expect(signInWithGoogleButton).toBeInTheDocument();
@@ -100,21 +111,5 @@ describe('Test suite for SignIn component', () => {
     expect(inputPassword.value).toBe('1234567');
     userEvent.clear(inputPassword);
     expect(inputPassword.value).toBe('');
-  });
-
-  test('should validate form fields when click sign in button', async () => {
-    const { signInButton } = setup();
-    userEvent.click(signInButton);
-    expect(await screen.findByRole('alert')).toBeInTheDocument();
-  });
-
-  test('should error alert disappear after timeout', async () => {
-    const { signInButton } = setup();
-    userEvent.click(signInButton);
-    expect(await screen.findByRole('alert')).toBeInTheDocument();
-    act(() => {
-      jest.runAllTimers();
-    });
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   });
 });

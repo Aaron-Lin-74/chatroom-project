@@ -1,8 +1,8 @@
-import WeatherInfo from './WeatherInfo';
 import { screen, render } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import { rest } from 'msw';
+import WeatherInfo from './WeatherInfo';
 
 const server = setupServer(
   rest.get('https://fcc-weather-api.glitch.me/api/current', (req, res, ctx) => {
@@ -55,16 +55,13 @@ describe('Test suites for WeatherInfo component', () => {
   });
 
   test('should render the component with h1 by default when Geolocation is not on', () => {
-    const errorObject = console.log; //store the state of the object
-    console.log = jest.fn(); // mock the object
     render(<WeatherInfo />);
     expect(screen.queryByText(/Chat Room/)).toBeInTheDocument();
-    console.log = errorObject; // assign it back
   });
 
   test('should render the weather data when Geolocation is enabled', async () => {
     const { getCurrentPositionMock } = mockNavigatorGeolocation();
-    getCurrentPositionMock.mockImplementation((success, rejected) =>
+    getCurrentPositionMock.mockImplementation((success) =>
       success({
         coords: {
           latitude: 51.1,

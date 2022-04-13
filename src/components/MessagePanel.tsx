@@ -1,16 +1,16 @@
 import React, { useState, useRef } from 'react';
-import { auth, messagesRef } from '../firebase';
 import { MdOutlinePhotoSizeSelectActual } from 'react-icons/md';
 import { BsEmojiSmile } from 'react-icons/bs';
 import 'emoji-mart/css/emoji-mart.css';
 import { Picker, BaseEmoji } from 'emoji-mart';
+import { addDoc, updateDoc, Timestamp } from 'firebase/firestore';
 import {
   getStorage,
   ref,
   uploadBytesResumable,
   getDownloadURL,
 } from 'firebase/storage';
-import { addDoc, updateDoc, Timestamp } from 'firebase/firestore';
+import { auth, messagesRef } from '../firebase';
 
 function MessagePanel() {
   const [message, setMessage] = useState<string>('');
@@ -34,34 +34,6 @@ function MessagePanel() {
       });
     } catch (error) {
       console.error('Error writing new message to Firebase Database', error);
-    }
-  };
-
-  /** Get the image name when a local image is selected via the media picker.
-   *  Then save the image message.
-   */
-  function onMediaFileSelected(e: React.ChangeEvent<HTMLInputElement>): void {
-    e.preventDefault();
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      // Check if the file is an image.
-      if (!file.type.match('image.*')) {
-        alert('You can only share images');
-        return;
-      }
-      // Check if the user is signed-in
-      if (auth.currentUser) {
-        saveImageMessage(file);
-      }
-    }
-  }
-
-  /**
-   * Since we hide the file input, we click the button to trigger the input click instead.
-   */
-  const clickFileInput = (): void => {
-    if (inputRef.current !== null) {
-      inputRef.current.click();
     }
   };
 
@@ -100,14 +72,43 @@ function MessagePanel() {
     }
   };
 
+  /** Get the image name when a local image is selected via the media picker.
+   *  Then save the image message.
+   */
+  function onMediaFileSelected(e: React.ChangeEvent<HTMLInputElement>): void {
+    e.preventDefault();
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      // Check if the file is an image.
+      if (!file.type.match('image.*')) {
+        // eslint-disable-next-line no-alert
+        alert('You can only share images');
+        return;
+      }
+      // Check if the user is signed-in
+      if (auth.currentUser) {
+        saveImageMessage(file);
+      }
+    }
+  }
+
+  /**
+   * Since we hide the file input, we click the button to trigger the input click instead.
+   */
+  const clickFileInput = (): void => {
+    if (inputRef.current !== null) {
+      inputRef.current.click();
+    }
+  };
+
   return (
     <div className='message-panel'>
       {showEmojiPicker ? (
         <Picker
           set='google'
-          native={true}
+          native
           onSelect={(emoji: BaseEmoji) => {
-            setMessage((message) => `${message}${emoji.native}`);
+            setMessage((prevMessage) => `${prevMessage}${emoji.native}`);
             setShowEmojiPicker(false);
           }}
         />

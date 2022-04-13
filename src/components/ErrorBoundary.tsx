@@ -15,6 +15,7 @@ export default class ErrorBoundary extends Component<Props, State> {
     };
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public static getDerivedStateFromError(_: Error): State {
     return {
       hasError: true,
@@ -26,17 +27,22 @@ export default class ErrorBoundary extends Component<Props, State> {
   }
 
   public render() {
-    if (this.state.hasError) {
+    const { hasError } = this.state;
+    if (hasError) {
       return (
         <div className='app-error-container'>
           <h1>Oops! Something went wrong.</h1>
           <h2>Please try later again.</h2>
-          <button onClick={() => this.setState({ hasError: false })}>
+          <button
+            onClick={() => this.setState({ hasError: false })}
+            type='button'
+          >
             Try again
           </button>
         </div>
       );
     }
-    return this.props.children;
+    const { children } = this.props;
+    return children;
   }
 }

@@ -4,6 +4,7 @@ exports[`Test suites for SignOut component should match the snapshot 1`] = `
 <DocumentFragment>
   <button
     class="sign-out chat-btns"
+    type="button"
   >
     SIGN-OUT
   </button>

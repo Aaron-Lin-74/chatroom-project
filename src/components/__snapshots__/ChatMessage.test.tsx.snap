@@ -14,12 +14,17 @@ exports[`ChatMessage component should match the snapshot 1`] = `
   <div
     class="message received"
   >
-    <img
-      alt="profile"
-      class="profilePhoto"
-      referrerpolicy="no-referrer"
-      src="http://www.fakePhotoURL"
-    />
+    <div
+      role="button"
+      tabindex="0"
+    >
+      <img
+        alt="profile"
+        class="profilePhoto"
+        referrerpolicy="no-referrer"
+        src="http://www.fakePhotoURL"
+      />
+    </div>
     <div
       class="profile-modal"
       data-testid="profile-modal"
@@ -29,6 +34,8 @@ exports[`ChatMessage component should match the snapshot 1`] = `
       >
         <span
           class="close-profile-modal"
+          role="button"
+          tabindex="0"
         >
           ×
         </span>

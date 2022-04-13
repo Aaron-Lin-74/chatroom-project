@@ -1,6 +1,6 @@
-import SignOut from './SignOut';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import SignOut from './SignOut';
 
 describe('Test suites for SignOut component', () => {
   test('should match the snapshot', () => {
