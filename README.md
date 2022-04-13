@@ -7,8 +7,9 @@
 - Firebase Storage is used to store the image message and generate the public URL to be stored in Firestore.
 - Local weather data would be fetched via third-party API when the user gave permission to use the geolocation.
 - Converted the JavaScript code base over to TypeScript.
-- Used React Testing Library to test components.
+- Used React Testing Library and Jest for unit test and integration test.
 - Used Github actions to perform the CICD.
+- Set up Eslint with Airbnb TypeScript Style Guide.
 
 The live project is hosted using Firebase, feel free to have a play around with it:
 https://aaronlin-project-chatroom.web.app/
